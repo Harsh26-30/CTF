@@ -7,17 +7,17 @@ const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const port = 5000;
+const port = 5000 ;
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://ctf-uawd.onrender.com",
     credentials: true
   }
 });
 
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend
+  origin: "https://ctf-uawd.onrender.com", // your frontend
   credentials: true
 }));
 
@@ -353,6 +353,6 @@ io.on("connection", (socket) => {
 });
 
 
-server.listen(5000, () => {
+server.listen(port, () => {
   console.log("Server running on port 5000");
 });
