@@ -7,7 +7,7 @@ const Chatinglist = () => {
 
   const fetchFriends = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/myfriends", {
+      const res = await axios.get("https://ctf-uawd.onrender.com/myfriends", {
         withCredentials: true
       });
       setFriends(res.data.friends);
@@ -22,7 +22,7 @@ const Chatinglist = () => {
 
   const hc = async (friendID) => {
     try {
-      await axios.post("http://localhost:5000/wanttochat", { friendID }, {
+      await axios.post("https://ctf-uawd.onrender.com/wanttochat", { friendID }, {
         withCredentials: true
       });
     } catch (err) {

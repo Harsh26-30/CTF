@@ -14,7 +14,7 @@ const SearchBox = () => {
 
   const hs = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:5000/finduser", {
+    const res = await axios.post("https://ctf-uawd.onrender.com/finduser", {
       userid: userid
     }
     );
@@ -28,7 +28,7 @@ const SearchBox = () => {
 
   const hadd = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:5000/addfriend", {
+    const res = await axios.post("https://ctf-uawd.onrender.com/addfriend", {
       userid: userid
     }, {
       withCredentials: true   // <--- ye must hai
@@ -40,7 +40,7 @@ const SearchBox = () => {
 
   const hremove = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:5000/removefriend", {
+    const res = await axios.post("https://ctf-uawd.onrender.com/removefriend", {
       userid: userid
     }, {
       withCredentials: true   // <--- ye must hai

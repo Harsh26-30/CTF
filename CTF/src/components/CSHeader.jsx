@@ -21,7 +21,7 @@ useEffect(() => {
     const datafromserverforheader = async () => {
         console.log("API calling...");
         try {
-            const res = await axios.get("http://localhost:5000/chatto", {
+            const res = await axios.get("https://ctf-uawd.onrender.com/chatto", {
                 withCredentials: true
             });
             console.log("Response:", res.data);

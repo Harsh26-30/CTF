@@ -11,13 +11,13 @@ const port = 5000 ;
 
 const io = new Server(server, {
   cors: {
-    origin: "https://ctf-uawd.onrender.com",
+    origin: "https://YOUR_FRONTEND_URL",
     credentials: true
   }
 });
 
 app.use(cors({
-  origin: "https://ctf-uawd.onrender.com", // your frontend
+  origin: "https://YOUR_FRONTEND_URL", // your frontend
   credentials: true
 }));
 
