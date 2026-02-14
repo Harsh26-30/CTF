@@ -39,7 +39,7 @@ app.use(session({
 
 const mongoDB = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/CTWUsers");
+    await mongoose.connect(process.env.MONGO_URI)
   } catch (e) {
     console.log(e);
 
