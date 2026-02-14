@@ -4,8 +4,9 @@
   "description": "this is going to be chatting web",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "start": "node src/backend/index.js"
+}
+,
   "author": "Harsh Raj",
   "license": "ISC",
   "dependencies": {
