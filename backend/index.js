@@ -39,7 +39,7 @@ app.use(session({
 
 const mongoDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI)
+    await mongoose.connect("mongodb+srv://harshkittu10_db_user:Harsh1234@cluster0.jpqyjps.mongodb.net/ctf")
   } catch (e) {
     console.log(e);
 
@@ -323,9 +323,9 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/userid', (req, res) => {
-  if(req.session.user){
+  if (req.session.user) {
     res.json({
-      userid:req.session.user.userid
+      userid: req.session.user.userid
     })
   }
 });
@@ -344,11 +344,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessageToUser", ({ toUserID, fromUserID, message }) => {
-  const targetSocket = onlineUsers[toUserID]; 
-  if (targetSocket) {
-    io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
-  }
-});
+    const targetSocket = onlineUsers[toUserID];
+    if (targetSocket) {
+      io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
+    }
+  });
 
 });
 
