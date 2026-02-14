@@ -1,0 +1,29 @@
+#NavbarMbox {
+    width: 15vw;
+    height: 20vh;
+    background-color: rgb(215, 168, 235);
+    z-index: 99;
+    position: fixed;
+    right: 0;
+    top: 70px;
+}
+
+ul {
+    list-style-type: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+li{
+    color: black;
+}
+
+@media (min-width:853px) {
+    #NavbarMbox {
+        display: none;
+    }
+}

@@ -1,0 +1,41 @@
+#Navbarbox {
+    width: 27vw;
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+}
+
+#Navbarbox ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 30px;
+    justify-content: space-evenly;
+    font-family: sans-serif;
+    font-weight: 600;
+    width: 100%;
+    height: 100%;
+}
+
+#Navbarbox ul li {
+    scale: 1;
+    padding: 5px;
+}
+
+#Navbarbox ul li:hover {
+    background-color: white;
+    border-radius: 50px;
+    /* transform: scale(1.5); */
+}
+
+@media (max-width:890px) {
+    #Navbarbox {
+        width: 32vw;
+    }
+}
+@media (max-width:853px) {
+    #Navbarbox {
+        display: none;
+    }
+}

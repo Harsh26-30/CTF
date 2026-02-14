@@ -1,0 +1,72 @@
+#Chatinglistbox {
+    width: 30%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+}
+
+#Chatinglistbox ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* gap: 0; */
+    list-style-type: none;
+    background-color: transparent;
+}
+
+#Chatinglistbox #profileimg {
+    width: 20%;
+    height: 70%;
+    border-radius: 100%;
+}
+
+#Chatinglistbox ul li {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: flex-start;
+    width: 100%;
+    height: 10%;
+    margin-left:15px;
+    /* background-color: green; */
+    border-bottom: white 1px solid;
+}
+
+#Chatinglistbox ul li img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+
+}
+
+
+@media (min-width:852px) {
+    #Chatinglistbox #profileimg {
+        background-color: red;
+        width: 15%;
+
+    }
+}
+
+/* 1035 */
+@media (min-width:1035px) {
+    #Chatinglistbox #profileimg {
+        background-color: red;
+        width: 13%;
+    }
+}
+
+/* 1212 */
+@media (min-width:1212px) {
+    #Chatinglistbox #profileimg {
+        background-color: red;
+        width: 11%;
+    }
+
+    #Chatinglistbox {
+        width: 18%;
+    }
+}

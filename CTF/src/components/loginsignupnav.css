@@ -1,0 +1,15 @@
+#loginsignupnavbox{
+    display: flex;
+    gap: 20px;
+}
+
+h2{
+    cursor: pointer;
+}
+
+h2:hover{
+    background-color: rgba(0, 0, 0, 0.21);
+    border-radius: 50px;
+    font-size: 25px;
+    padding: 5px;
+}
