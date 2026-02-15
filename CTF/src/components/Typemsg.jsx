@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import './Typemsg.css';
 import { io } from "socket.io-client";
+import axios from "axios";
 
-export const socket = io("https://your-backend-server.com", { withCredentials: true });
+
+export const socket = io("https://ctf-3ztj.onrender.com", {
+  withCredentials: true
+});
 
 
 const Typemsg = () => {
@@ -28,14 +32,17 @@ const Typemsg = () => {
     });
 
     const register = async () => {
-      const res = await axios.get("https://ctf-uawd.onrender.com/userid");
+      const res = await axios.get(
+        "https://ctf-3ztj.onrender.com/userid",
+        { withCredentials: true }
+      );
       setfromUserID(res.data.userid)
       socket.emit("registerUser", res.data.userid);
     };
     register();
 
     const sendto = async () => {
-      const res = await axios.get("https://your-netlify-site.netlify.app/chatto", {
+      const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
         withCredentials: true
       });
       settoUserID(res.data.chatto)
@@ -69,7 +76,7 @@ const Typemsg = () => {
 
   return (
     <div id='Typemsgbox'>
-           <div id="chatWindow">
+      <div id="chatWindow">
         {messages.map((msg, index) => (
           <div
             key={index}

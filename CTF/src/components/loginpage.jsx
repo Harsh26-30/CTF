@@ -8,7 +8,7 @@ const loginpage = ({ sendDataS }) => {
     const [pass, setPass] = useState("")
      const hs = async (e) => {             //hs-handlesubmit
     e.preventDefault();
-    const res = await axios.post("https://ctf-uawd.onrender.com/login", {
+    const res = await axios.post("https://ctf-3ztj.onrender.com/login", {
       email: email,
       pass: pass
     });
