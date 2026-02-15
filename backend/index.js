@@ -7,17 +7,17 @@ const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const port = 5000 ;
+const port = process.env.PORT || 5000;
 
 const io = new Server(server, {
   cors: {
-    origin: "https://YOUR_FRONTEND_URL",
+    origin: "https://ctf-frontend.onrender.com",
     credentials: true
   }
 });
 
 app.use(cors({
-  origin: "https://YOUR_FRONTEND_URL", // your frontend
+  origin: "https://ctf-frontend.onrender.com",
   credentials: true
 }));
 
@@ -39,7 +39,7 @@ app.use(session({
 
 const mongoDB = async () => {
   try {
-    await mongoose.connect("mongodb+srv://harshkittu10_db_user:Harsh1234@cluster0.jpqyjps.mongodb.net/ctf")
+    await mongoose.connect(process.env.MONGO_URL);
   } catch (e) {
     console.log(e);
 
