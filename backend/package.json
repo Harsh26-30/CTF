@@ -4,7 +4,7 @@
   "description": "this is going to be chatting web",
   "main": "index.js",
   "scripts": {
-    "start": "node src/backend/index.js"
+    "start": "node index.js"
   },
   "author": "Harsh Raj",
   "license": "ISC",
