@@ -25,6 +25,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const path = require("path");
+app.use(express.static(path.join(__dirname, "../CTF/dist")));
 
 app.set("trust proxy", 1);
 
@@ -83,8 +85,8 @@ const userSchma = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchma);
 
-app.get("/", (req, res) => {
-  res.send("Server is running 🚀");
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../CTF/dist/index.html"));
 });
 
 
