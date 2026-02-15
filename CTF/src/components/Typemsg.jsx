@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import './Typemsg.css';
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:5000", {
-  withCredentials: true
-});
+export const socket = io("https://your-backend-server.com", { withCredentials: true });
 
 const Typemsg = () => {
 
@@ -29,14 +27,14 @@ const Typemsg = () => {
     });
 
     const register = async () => {
-      const res = await axios.get("http://localhost:5000/userid");
+      const res = await axios.get("https://your-netlify-site.netlify.app/userid");
       setfromUserID(res.data.userid)
       socket.emit("registerUser", res.data.userid);
     };
     register();
 
     const sendto = async () => {
-      const res = await axios.get("http://localhost:5000/chatto", {
+      const res = await axios.get("https://your-netlify-site.netlify.app/chatto", {
         withCredentials: true
       });
       settoUserID(res.data.chatto)

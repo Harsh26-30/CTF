@@ -14,7 +14,7 @@ const SearchBox = () => {
 
   const hs = async (e) => {
     e.preventDefault();
-    const res = await axios.post("https://ctf-uawd.onrender.com/finduser", {
+    const res = await axios.post("https://your-netlify-site.netlify.app/finduser", {
       userid: userid
     }
     );
@@ -28,7 +28,7 @@ const SearchBox = () => {
 
   const hadd = async (e) => {
     e.preventDefault();
-    const res = await axios.post("https://ctf-uawd.onrender.com/addfriend", {
+    const res = await axios.post("https://your-netlify-site.netlify.app/addfriend", {
       userid: userid
     }, {
       withCredentials: true   // <--- ye must hai
@@ -40,7 +40,7 @@ const SearchBox = () => {
 
   const hremove = async (e) => {
     e.preventDefault();
-    const res = await axios.post("https://ctf-uawd.onrender.com/removefriend", {
+    const res = await axios.post("https://your-netlify-site.netlify.app/removefriend", {
       userid: userid
     }, {
       withCredentials: true   // <--- ye must hai
