@@ -8,7 +8,7 @@ const CSHeader = ({ setauth, setshm }) => {
     const [friendname, setfriendname] = useState("none")
     const hs = async (e) => {
         e.preventDefault();
-        const res = await axios.get("http://localhost:5000/logout");
+        const res = await axios.get("https://ctf-3ztj.onrender.com/logout");
         setauth(res.data.auth);
         setshm(res.data.shm);
         console.log("click working");
