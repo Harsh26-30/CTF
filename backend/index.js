@@ -75,6 +75,9 @@ const userSchma = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchma);
 
+app.get("/", (req, res) => {
+  res.send("Server is running 🚀");
+});
 
 
 app.post('/signup', async (req, res) => {
