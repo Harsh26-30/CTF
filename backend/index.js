@@ -38,11 +38,12 @@ app.use(session({
     mongoUrl: process.env.MONGO_URL,
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
-  cookie: {
-    secure: process.env.NODE_ENV === "production", // secure only in production
-    httpOnly: true,
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax" // cross-site cookie for prod
-  }
+cookie: {
+  secure: true,
+  httpOnly: true,
+  sameSite: "none"
+}
+
 }));
 
 
