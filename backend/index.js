@@ -78,9 +78,15 @@ const userSchma = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchma);
 
+const path = require("path");
+
+// Serve React build folder
+app.use(express.static(path.join(__dirname, "dist")));
+
 app.get("/", (req, res) => {
-  res.send("Server is running 🚀");
+  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
+
 
 
 app.post('/signup', async (req, res) => {
@@ -360,5 +366,5 @@ io.on("connection", (socket) => {
 
 
 server.listen(port, () => {
-  console.log("Server running on port 5000");
+  console.log("Server running on port ");
 });
