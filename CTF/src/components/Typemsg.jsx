@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 
 export const socket = io("https://your-backend-server.com", { withCredentials: true });
 
+
 const Typemsg = () => {
 
   const [usertypemsg, setusertypemsg] = useState("")
@@ -27,7 +28,7 @@ const Typemsg = () => {
     });
 
     const register = async () => {
-      const res = await axios.get("https://your-netlify-site.netlify.app/userid");
+      const res = await axios.get("https://ctf-uawd.onrender.com/userid");
       setfromUserID(res.data.userid)
       socket.emit("registerUser", res.data.userid);
     };

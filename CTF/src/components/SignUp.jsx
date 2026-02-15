@@ -16,7 +16,7 @@ const SignUp = ({ sendDataS }) => {
 
   const hs = async (e) => {             //hs-handlesubmit
     e.preventDefault();
-    const res = await axios.post("https://your-netlify-site.netlify.app/signup", {
+    const res = await axios.post("https://ctf-uawd.onrender.com/signup", {
       username: username,
       userid: userid,
       email: email,

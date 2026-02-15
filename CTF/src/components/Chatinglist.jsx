@@ -7,7 +7,7 @@ const Chatinglist = () => {
 
   const fetchFriends = async () => {
     try {
-      const res = await axios.get("https://your-netlify-site.netlify.app/myfriends", {
+      const res = await axios.get("https://ctf-uawd.onrender.com/myfriends", {
         withCredentials: true
       });
       setFriends(res.data.friends);
@@ -22,7 +22,7 @@ const Chatinglist = () => {
 
   const hc = async (friendID) => {
     try {
-      await axios.post("https://your-netlify-site.netlify.app/wanttochat", { friendID }, {
+      await axios.post("https://ctf-uawd.onrender.com/wanttochat", { friendID }, {
         withCredentials: true
       });
     } catch (err) {
