@@ -25,16 +25,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+app.set("trust proxy", 1);
+
 app.use(session({
   secret: "mySecretKey",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 10 * 60 * 1000,
+    secure: true,   // production me true
     httpOnly: true,
-    sameSite: "lax", // add this
+    sameSite: "none"
   }
 }));
+
 
 
 const mongoDB = async () => {
