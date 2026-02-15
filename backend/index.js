@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const session = require("express-session");
 const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo");
 const http = require("http");
 const { Server } = require("socket.io");
 
@@ -31,8 +32,12 @@ app.use(session({
   secret: "mySecretKey",
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    ttl: 14 * 24 * 60 * 60 // 14 days
+  }),
   cookie: {
-    secure: true,   // production me true
+    secure: true,
     httpOnly: true,
     sameSite: "none"
   }
