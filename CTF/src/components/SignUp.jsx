@@ -21,7 +21,10 @@ const SignUp = ({ sendDataS }) => {
       userid: userid,
       email: email,
       pass: pass
-    });
+    },
+      {
+        withCredentials: true  // <--- this sends cookies
+      });
     // setshm(res.data.shm)
     // setauth(res.data.auth)
     sendDataS(res.data)

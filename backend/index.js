@@ -39,9 +39,9 @@ app.use(session({
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
   cookie: {
-    secure: true,
+    secure: process.env.NODE_ENV === "production", // secure only in production
     httpOnly: true,
-    sameSite: "none"
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax" // cross-site cookie for prod
   }
 }));
 
