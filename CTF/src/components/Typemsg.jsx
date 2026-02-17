@@ -91,7 +91,7 @@ const Typemsg = () => {
       </div>
       <form onSubmit={hs}>
         <input type="text" onChange={(e) => setusertypemsg(e.target.value)} />
-        <button>Send</button>
+        <button type="submit">Send</button>
       </form>
     </div>
   );
