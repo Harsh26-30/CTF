@@ -38,15 +38,6 @@ const Typemsg = () => {
     };
     register();
 
-    const sendto = async () => {
-      const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
-        withCredentials: true
-      });
-      console.log("jis ko msg bhejna hai", res.data.chatto);
-      settoUserID(res.data.chatto)
-    }
-    sendto();
-
     socket.on("receiveMessage", ({ fromUserID, message }) => {
       setMessages(prev => [...prev, { from: fromUserID, text: message }]);
     });
@@ -58,16 +49,19 @@ const Typemsg = () => {
     };
   }, []); // empty dependency → run once
 
+  const sendto = async () => {
+    const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
+      withCredentials: true
+    });
+    console.log("jis ko msg bhejna hai", res.data.chatto);
+    settoUserID(res.data.chatto)
+  }
+  sendto();
+
   const hs = (e) => {
     e.preventDefault();
     if (usertypemsg.trim() === "") return;
 
-    // if (!toUserID || !fromUserID) {
-    //   console.log("IDs not ready yet", { toUserID, fromUserID });
-    //   return;
-    // }
-
-    console.log("Sending message", { toUserID, fromUserID, message: usertypemsg });
     socket.emit("sendMessageToUser", {
       toUserID,
       fromUserID,
