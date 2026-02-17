@@ -24,7 +24,7 @@ const Typemsg = () => {
     });
 
     // Send test message
-    socket.emit("testMessage", { msg: "Hello server!" });
+    // socket.emit("testMessage", { msg: "Hello server!" });
 
     // Listen for server reply
     socket.on("replyMessage", (data) => {
@@ -64,7 +64,7 @@ const Typemsg = () => {
   const hs = async (e) => {
     e.preventDefault(); // Page reload rokne ke liye
     if (usertypemsg.trim() === "") return; // Empty message ignore
-    socket.emit("testMessage", { msg: usertypemsg });
+    // socket.emit("testMessage", { msg: usertypemsg });
     socket.emit("sendMessageToUser", {
       toUserID: toUserID, // message kisko bhejna hai
       fromUserID: fromUserID, // message kisne bheja

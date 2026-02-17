@@ -344,9 +344,9 @@ app.get('/userid', (req, res) => {
 const onlineUsers = {};
 
 io.on("connection", (socket) => {
-  socket.on("testMessage", (data) => {
-    console.log(socket.id, data.msg);
-  });
+  // socket.on("testMessage", (data) => {
+  //   console.log(socket.id, data.msg);
+  // });
 
   // Server
   socket.on("registerUser", (userID) => {
@@ -360,6 +360,15 @@ io.on("connection", (socket) => {
       io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
     }
   });
+
+  socket.on("disconnect", () => {
+  for (let userID in onlineUsers) {
+    if (onlineUsers[userID] === socket.id) {
+      delete onlineUsers[userID];
+    }
+  }
+  console.log("User disconnected. Online users:", onlineUsers);
+});
 
 });
 
