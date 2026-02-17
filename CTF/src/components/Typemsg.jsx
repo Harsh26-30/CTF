@@ -38,6 +38,7 @@ const Typemsg = () => {
       );
       setfromUserID(res.data.userid)
       socket.emit("registerUser", res.data.userid);
+      console.log(res.data.userid);
     };
     register();
 
@@ -45,9 +46,9 @@ const Typemsg = () => {
       const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
         withCredentials: true
       });
+      console.log("jis ko msg bhejna hai",res.data.chatto);
       settoUserID(res.data.chatto)
     }
-
     sendto();
 
     socket.on("receiveMessage", ({ fromUserID, message }) => {
