@@ -73,6 +73,8 @@ const Typemsg = () => {
     });
     // Test message (can later be your actual chat)
     setusertypemsg(""); // Clear the input
+    console.log(toUserID,fromUserID,messages);
+    
   };
 
   return (
