@@ -18,9 +18,10 @@ const io = new Server(server, {
 });
 
 app.use(cors({
-  origin: true,
+  origin: "https://ctf-3ztj.onrender.com",
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
