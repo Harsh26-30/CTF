@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from "../socket";
 
-const Messages = () => {
+const Messages = ({ userID }) => {
 
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+
+    // ✅ Register user when component mounts
+    if (userID) {
+      socket.emit("registerUser", userID);
+      console.log("Registered user:", userID);
+    }
 
     socket.on("receiveMessage", (data) => {
       console.log("Message received in Messages component:", data);
@@ -20,7 +26,7 @@ const Messages = () => {
       socket.off("receiveMessage");
     };
 
-  }, []);
+  }, [userID]);
 
   return (
     <div>
