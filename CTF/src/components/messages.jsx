@@ -30,15 +30,6 @@ const Messages = ({ userID }) => {
   }, [userID]);
 
 
-  // socket.on("receiveMessage", (data) => {
-  //   console.log("Message received in Messages component:", data);
-
-  //   setMessages(prev => [
-  //     ...prev,
-  //     { from: data.fromUserID, text: data.message }
-  //   ]);
-  // });
-
   return (
     <div>
       <h2>Messages</h2>
