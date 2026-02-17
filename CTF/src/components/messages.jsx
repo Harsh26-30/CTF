@@ -7,7 +7,7 @@ const Messages = ({ userID }) => {
 
   useEffect(() => {
 
-    // ✅ Register user when component mounts
+    // Register user when component mounts
     if (userID) {
       socket.emit("registerUser", userID);
       console.log("Registered user:", userID);
@@ -21,7 +21,7 @@ const Messages = ({ userID }) => {
         { from: data.fromUserID, text: data.message }
       ]);
     });
-q
+
     return () => {
       socket.off("receiveMessage");
     };
