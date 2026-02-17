@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import './Typemsg.css';
-import { io } from "socket.io-client";
 import axios from "axios";
+import { socket } from "../socket";
 
-
-export const socket = io("https://ctf-3ztj.onrender.com", {
-  withCredentials: true
-});
 
 
 const Typemsg = () => {
