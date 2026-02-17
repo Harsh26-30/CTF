@@ -315,6 +315,7 @@ app.get('/chatto', (req, res) => {
   // check if session and chatto exist
   const chatto = req.session.user?.chatto || null;
   res.json({ chatto });
+  console.log("sending to",chatto);
 });
 
 

@@ -53,7 +53,6 @@ const Typemsg = () => {
     const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
       withCredentials: true
     });
-    console.log("jis ko msg bhejna hai", res.data.chatto);
     settoUserID(res.data.chatto)
   }
   sendto();
