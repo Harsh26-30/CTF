@@ -4,39 +4,54 @@ import axios from 'axios';
 
 const Chatinglist = () => {
   const [friends, setFriends] = useState([]);
+  const baseURL = "https://ctf-3ztj.onrender.com";
 
   const fetchFriends = async () => {
     try {
-      const res = await axios.get("https://ctf-3ztj.onrender.com/myfriends", {
+      const res = await axios.get(`${baseURL}/myfriends`, {
         withCredentials: true
       });
-      setFriends(res.data.friends);
+
+      if (res.data.auth) {
+        console.log("User not logged in");
+        return;
+      }
+
+      setFriends(res.data.friends || []);
     } catch (err) {
-      console.error("Error fetching friends:", err);
+      console.error("Error fetching friends:", err.response?.data || err.message);
     }
   };
 
   useEffect(() => {
-    fetchFriends(); // ✅ Only run once on mount
+    fetchFriends();
   }, []);
 
   const hc = async (friendID) => {
     try {
-      await axios.post("https://ctf-3ztj.onrender.com//wanttochat", { friendID }, {
-        withCredentials: true
-      });
+      const res = await axios.post(
+        `${baseURL}/wanttochat`,
+        { friendID },
+        { withCredentials: true }
+      );
+
+      console.log("Chat selected:", res.data);
     } catch (err) {
-      console.error("Error selecting friend to chat:", err);
+      console.error("Error selecting friend to chat:", err.response?.data || err.message);
     }
-  }
+  };
 
   return (
     <div id='Chatinglistbox'>
       <ul>
         {friends.length === 0 && <li>No friends yet</li>}
         {friends.map((friend, index) => (
-          <li key={index} onClick={() => hc(friend)}>
-            <img id='profileimg' src="/pexels-caleb-lamb-597215774-35911819.jpg" alt="friendimg" />
+          <li key={friend} onClick={() => hc(friend)}>
+            <img
+              id='profileimg'
+              src="/pexels-caleb-lamb-597215774-35911819.jpg"
+              alt="friendimg"
+            />
             <span>{friend}</span>
           </li>
         ))}
