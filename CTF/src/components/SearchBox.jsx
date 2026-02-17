@@ -11,20 +11,25 @@ const SearchBox = () => {
   const [add, setadd] = useState(false)
   const [remove, setremove] = useState(false)
 
-
   const hs = async (e) => {
     e.preventDefault();
-    const res = await axios.post("https://ctf-3ztj.onrender.com/finduser", {
-      userid: userid
-    }
-    );
-    console.log(res.data);
+    try {
+      const res = await axios.post(
+        "https://ctf-3ztj.onrender.com/finduser",
+        { userid }
+      );
 
-    setisuser(res.data.isuser);
-    setuserprofilename(res.data.userprofilename);
-    setadd(res.data.add)
-    setremove(res.data.remove)
+      setisuser(res.data.isuser);
+      setuserprofilename(res.data.userprofilename);
+      setadd(res.data.add);
+      setremove(res.data.remove);
+
+    } catch (err) {
+      console.error(err);
+      alert("User not found or server error");
+    }
   }
+
 
   const hadd = async (e) => {
     e.preventDefault();
