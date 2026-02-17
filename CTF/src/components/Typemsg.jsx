@@ -66,10 +66,10 @@ const Typemsg = () => {
     e.preventDefault();
     if (usertypemsg.trim() === "") return;
 
-    if (!toUserID || !fromUserID) {
-      console.log("IDs not ready yet", { toUserID, fromUserID });
-      return;
-    }
+    // if (!toUserID || !fromUserID) {
+    //   console.log("IDs not ready yet", { toUserID, fromUserID });
+    //   return;
+    // }
 
     console.log("Sending message", { toUserID, fromUserID, message: usertypemsg });
     socket.emit("sendMessageToUser", {
