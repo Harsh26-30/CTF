@@ -87,10 +87,6 @@ const userSchma = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchma);
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../CTF/dist/index.html"));
-});
-
 
 app.post('/signup', async (req, res) => {
   const { username, userid, email, pass } = req.body;
@@ -365,6 +361,10 @@ io.on("connection", (socket) => {
     }
   });
 
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../CTF/dist/index.html"));
 });
 
 
