@@ -358,6 +358,8 @@ io.on("connection", (socket) => {
     const targetSocket = onlineUsers[toUserID];
     if (targetSocket) {
       io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
+      console.log("yes emiting",toUserID,fromUserID,message);
+      
     }
   });
 
