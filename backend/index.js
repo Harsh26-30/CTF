@@ -315,10 +315,7 @@ app.get('/chatto', (req, res) => {
   // check if session and chatto exist
   const chatto = req.session.user?.chatto || null;
   res.json({ chatto });
-      console.log("Chatto saved:",req.session.user.userid, chatto);
 });
-
-
 
 
 app.get('/logout', (req, res) => {
@@ -329,7 +326,6 @@ app.get('/logout', (req, res) => {
       shm: false
     });
   });
-
 });
 
 app.get('/userid', (req, res) => {
