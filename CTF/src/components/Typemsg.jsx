@@ -10,8 +10,6 @@ const Typemsg = () => {
   const [usertypemsg, setusertypemsg] = useState("")
   const [fromUserID, setfromUserID] = useState("")
   const [toUserID, settoUserID] = useState("")
-  const [messages, setMessages] = useState([]);
-
 
   useEffect(() => {
     // Connected to server

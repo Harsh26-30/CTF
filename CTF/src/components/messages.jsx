@@ -7,35 +7,37 @@ const Messages = ({ userID }) => {
 
   useEffect(() => {
 
-    // Register user when component mounts
     if (userID) {
       socket.emit("registerUser", userID);
       console.log("Registered user:", userID);
     }
 
-    // socket.on("receiveMessage", (data) => {
-    //   console.log("Message received in Messages component:", data);
+    const handleReceive = (data) => {
+      console.log("Message received:", data);
 
-    //   setMessages(prev => [
-    //     ...prev,
-    //     { from: data.fromUserID, text: data.message }
-    //   ]);
-    // });
+      setMessages(prev => [
+        ...prev,
+        { from: data.fromUserID, text: data.message }
+      ]);
+    };
+
+    socket.on("receiveMessage", handleReceive);
 
     return () => {
-      socket.off("receiveMessage");
+      socket.off("receiveMessage", handleReceive);
     };
 
   }, [userID]);
 
-  socket.on("receiveMessage", (data) => {
-    console.log("Message received in Messages component:", data);
 
-    setMessages(prev => [
-      ...prev,
-      { from: data.fromUserID, text: data.message }
-    ]);
-  });
+  // socket.on("receiveMessage", (data) => {
+  //   console.log("Message received in Messages component:", data);
+
+  //   setMessages(prev => [
+  //     ...prev,
+  //     { from: data.fromUserID, text: data.message }
+  //   ]);
+  // });
 
   return (
     <div>
