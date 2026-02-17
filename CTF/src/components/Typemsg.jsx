@@ -72,16 +72,6 @@ const Typemsg = () => {
 
   return (
     <div id='Typemsgbox'>
-      <div id="chatWindow">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={msg.from === fromUserID ? "myMessage" : "friendMessage"}
-          >
-            <b>{msg.from}:</b> {msg.text}
-          </div>
-        ))}
-      </div>
       <form onSubmit={hs}>
         <input type="text" onChange={(e) => setusertypemsg(e.target.value)} />
         <button type="submit">Send</button>
