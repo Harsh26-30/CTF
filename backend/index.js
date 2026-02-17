@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 
 const io = new Server(server, {
   cors: {
-    origin: true,
+    origin: "https://ctf-3ztj.onrender.com",
     credentials: true
   }
 });
