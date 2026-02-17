@@ -13,20 +13,29 @@ const Messages = ({ userID }) => {
       console.log("Registered user:", userID);
     }
 
-    socket.on("receiveMessage", (data) => {
-      console.log("Message received in Messages component:", data);
+    // socket.on("receiveMessage", (data) => {
+    //   console.log("Message received in Messages component:", data);
 
-      setMessages(prev => [
-        ...prev,
-        { from: data.fromUserID, text: data.message }
-      ]);
-    });
+    //   setMessages(prev => [
+    //     ...prev,
+    //     { from: data.fromUserID, text: data.message }
+    //   ]);
+    // });
 
     return () => {
       socket.off("receiveMessage");
     };
 
   }, [userID]);
+
+  socket.on("receiveMessage", (data) => {
+    console.log("Message received in Messages component:", data);
+
+    setMessages(prev => [
+      ...prev,
+      { from: data.fromUserID, text: data.message }
+    ]);
+  });
 
   return (
     <div>
