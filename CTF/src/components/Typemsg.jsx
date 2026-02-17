@@ -46,7 +46,7 @@ const Typemsg = () => {
       const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
         withCredentials: true
       });
-      console.log("jis ko msg bhejna hai",res.data.chatto);
+      console.log("jis ko msg bhejna hai", res.data.chatto);
       settoUserID(res.data.chatto)
     }
     sendto();
@@ -62,20 +62,24 @@ const Typemsg = () => {
     };
   }, []); // empty dependency → run once
 
-  const hs = async (e) => {
-    e.preventDefault(); // Page reload rokne ke liye
-    if (usertypemsg.trim() === "") return; // Empty message ignore
-    // socket.emit("testMessage", { msg: usertypemsg });
+  const hs = (e) => {
+    e.preventDefault();
+    if (usertypemsg.trim() === "") return;
+
+    if (!toUserID || !fromUserID) {
+      console.log("IDs not ready yet", { toUserID, fromUserID });
+      return;
+    }
+
+    console.log("Sending message", { toUserID, fromUserID, message: usertypemsg });
     socket.emit("sendMessageToUser", {
-      toUserID: toUserID, // message kisko bhejna hai
-      fromUserID: fromUserID, // message kisne bheja
-      message: usertypemsg // message ka text
+      toUserID,
+      fromUserID,
+      message: usertypemsg
     });
-    // Test message (can later be your actual chat)
-    setusertypemsg(""); // Clear the input
-    console.log(toUserID,fromUserID,messages);
-    
+    setusertypemsg("");
   };
+
 
   return (
     <div id='Typemsgbox'>
