@@ -315,8 +315,7 @@ app.get('/chatto', (req, res) => {
   // check if session and chatto exist
   const chatto = req.session.user?.chatto || null;
   res.json({ chatto });
-      console.log("Chatto saved:", chatto);
-
+      console.log("Chatto saved:",req.session.user.userid, chatto);
 });
 
 
