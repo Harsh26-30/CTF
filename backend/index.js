@@ -39,11 +39,11 @@ app.use(session({
     mongoUrl: process.env.MONGO_URL,
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
-cookie: {
-  secure: true,
-  httpOnly: true,
-  sameSite: "none"
-}
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    sameSite: "none"
+  }
 
 }));
 
@@ -356,21 +356,20 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessageToUser", ({ toUserID, fromUserID, message }) => {
     const targetSocket = onlineUsers[toUserID];
+    console.log("yes emiting", toUserID, fromUserID, message);
     if (targetSocket) {
       io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
-      console.log("yes emiting",toUserID,fromUserID,message);
-      
     }
   });
 
   socket.on("disconnect", () => {
-  for (let userID in onlineUsers) {
-    if (onlineUsers[userID] === socket.id) {
-      delete onlineUsers[userID];
+    for (let userID in onlineUsers) {
+      if (onlineUsers[userID] === socket.id) {
+        delete onlineUsers[userID];
+      }
     }
-  }
-  console.log("User disconnected. Online users:", onlineUsers);
-});
+    console.log("User disconnected. Online users:", onlineUsers);
+  });
 
 });
 
