@@ -305,8 +305,6 @@ app.post('/wanttochat', (req, res) => {
       console.log("Session save error:", err);
       return res.status(500).json({ error: "Session not saved" });
     }
-
-    console.log("Chatto saved:", req.session.user.chatto);
     res.json({ success: true, chatto: friendID });
   });
 });
@@ -317,6 +315,8 @@ app.get('/chatto', (req, res) => {
   // check if session and chatto exist
   const chatto = req.session.user?.chatto || null;
   res.json({ chatto });
+      console.log("Chatto saved:", chatto);
+
 });
 
 
