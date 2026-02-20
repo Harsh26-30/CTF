@@ -5,7 +5,7 @@ import ChatingSpace from './ChatingSpace'
 import { useState } from 'react'
 
 const Main = ({ setshm, setauth }) => {
-  cont[chatto ,setchatto]=useState("")
+  const[chatto ,setchatto]=useState("")
   return (
     <div id='Mainbox'>
       <Chatinglist onclickli={setchatto}/>
