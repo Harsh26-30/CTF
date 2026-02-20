@@ -5,7 +5,7 @@ import { socket } from "../socket";
 
 
 
-const Typemsg = () => {
+const Typemsg = ({chatto}) => {
 
   const [usertypemsg, setusertypemsg] = useState("")
   const [fromUserID, setfromUserID] = useState("")
@@ -47,13 +47,7 @@ const Typemsg = () => {
     };
   }, []); // empty dependency → run once
 
-  const sendto = async () => {
-    const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
-      withCredentials: true
-    });
-    settoUserID(res.data.chatto)
-  }
-  sendto();
+  settoUserID(chatto)
 
   const hs = (e) => {
     e.preventDefault();
