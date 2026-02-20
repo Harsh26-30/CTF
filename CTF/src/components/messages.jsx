@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from "../socket";
-// import axios from 'axios';
+import axios from 'axios';
 
 const Messages = ({ userID,chatto }) => {
 
