@@ -4,6 +4,8 @@ import { socket } from "../socket";
 const Messages = ({ userID }) => {
 
   const [messages, setMessages] = useState([]);
+  const [chattinguser, setchattinguser] = useState("");
+
 
   useEffect(() => {
 
@@ -28,18 +30,24 @@ const Messages = ({ userID }) => {
     };
 
   }, [userID]);
-
+  
+    const sendto = async () => {
+    const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
+      withCredentials: true
+    });
+    setchattinguser(res.data.chatto)
+  }
+  sendto();
 
   return (
     <div>
       <h2>Messages</h2>
 
-      {messages.map((msg, index) => (
-        <div key={index}>
+      {messages.map((msg, index) => (msg.from === chattinguser ?
+        (<div key={index}>
           <b>{msg.from}:</b> {msg.text}
-        </div>
+        </div>):(<p></p>)
       ))}
-
     </div>
   );
 };
