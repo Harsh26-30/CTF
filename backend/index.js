@@ -294,29 +294,29 @@ app.post('/removefriend', async (req, res) => {
 });
 
 
-app.post('/wanttochat', (req, res) => {
-  const { friendID } = req.body;
-  if (!req.session.user || !req.session.user.userid) {
-    return res.status(401).json({ error: "Please login first" });
-  }
-  req.session.user.chatto = friendID;
-  req.session.save((err) => {
-    if (err) {
-      console.log("Session save error:", err);
-      return res.status(500).json({ error: "Session not saved" });
-    }
-    res.json({ success: true, chatto: friendID });
-  });
-});
+// app.post('/wanttochat', (req, res) => {
+//   const { friendID } = req.body;
+//   if (!req.session.user || !req.session.user.userid) {
+//     return res.status(401).json({ error: "Please login first" });
+//   }
+//   req.session.user.chatto = friendID;
+//   req.session.save((err) => {
+//     if (err) {
+//       console.log("Session save error:", err);
+//       return res.status(500).json({ error: "Session not saved" });
+//     }
+//     res.json({ success: true, chatto: friendID });
+//   });
+// });
 
 
 
-app.get('/chatto', (req, res) => {
-  // check if session and chatto exist
-  const chatto = req.session.user?.chatto || null;
-  res.json({ chatto });
-  console.log("sending to",chatto);
-});
+// app.get('/chatto', (req, res) => {
+//   // check if session and chatto exist
+//   const chatto = req.session.user?.chatto || null;
+//   res.json({ chatto });
+//   console.log("sending to",chatto);
+// });
 
 
 app.get('/logout', (req, res) => {
@@ -346,9 +346,9 @@ io.on("connection", (socket) => {
     console.log("connection established");
   });
 
-  socket.on("sendMessageToUser", ({ toUserID, fromUserID, message }) => {
-    const targetSocket = onlineUsers[toUserID];
-    console.log("yes emiting", toUserID, fromUserID, message);
+  socket.on("sendMessageToUser", ({ chatto, fromUserID, message }) => {
+    const targetSocket = onlineUsers[chatto];
+    console.log("yes emiting", chatto, fromUserID, message);
     if (targetSocket) {
       io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
     }

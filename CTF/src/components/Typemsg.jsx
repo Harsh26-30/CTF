@@ -9,7 +9,7 @@ const Typemsg = ({chatto}) => {
 
   const [usertypemsg, setusertypemsg] = useState("")
   const [fromUserID, setfromUserID] = useState("")
-  const [toUserID, settoUserID] = useState(chatto)
+  // const [toUserID, settoUserID] = useState(chatto)
 
   useEffect(() => {
     // Connected to server
@@ -54,7 +54,7 @@ const Typemsg = ({chatto}) => {
     if (usertypemsg.trim() === "") return;
 
     socket.emit("sendMessageToUser", {
-      toUserID,
+      chatto,
       fromUserID,
       message: usertypemsg
     });
