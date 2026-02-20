@@ -27,20 +27,20 @@ const Chatinglist = ({onclickli}) => {
     fetchFriends();
   }, []);
 
-  // const hc = async (friendID) => {
-  //   try {
-  //     const res = await axios.post(
-  //       `${baseURL}/wanttochat`,
-  //       { friendID },
-  //       { withCredentials: true }
-  //     );
+  const hc = async (friendID) => {
+    // try {
+    //   const res = await axios.post(
+    //     `${baseURL}/wanttochat`,
+    //     { friendID },
+    //     { withCredentials: true }
+    //   );
 
-  //     console.log("Chat selected:", res.data);
-  //   } catch (err) {
-  //     console.error("Error selecting friend to chat:", err.response?.data || err.message);
-  //   }
-  //   onclickli(friendID)
-  // };
+    //   console.log("Chat selected:", res.data);
+    // } catch (err) {
+    //   console.error("Error selecting friend to chat:", err.response?.data || err.message);
+    // }
+    onclickli(friendID)
+  };
 
   return (
     <div id='Chatinglistbox'>
