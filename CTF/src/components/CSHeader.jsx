@@ -3,7 +3,7 @@ import './CSHeader.css'
 import { useState } from 'react'
 import axios from 'axios'
 
-const CSHeader = ({ setauth, setshm }) => {
+const CSHeader = ({chatto, setauth, setshm }) => {
     // const [userlogout, setuserlogout] = useState("")
     const [friendname, setfriendname] = useState("none")
     const hs = async (e) => {
@@ -15,35 +15,35 @@ const CSHeader = ({ setauth, setshm }) => {
         console.log(res.data);
 
     }
-useEffect(() => {
-    console.log("Header Mounted");
+// useEffect(() => {
+//     console.log("Header Mounted");
 
-    const datafromserverforheader = async () => {
-        console.log("API calling...");
-        try {
-            const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
-                withCredentials: true
-            });
-            console.log("Response:", res.data);
+//     const datafromserverforheader = async () => {
+//         console.log("API calling...");
+//         try {
+//             const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
+//                 withCredentials: true
+//             });
+//             console.log("Response:", res.data);
 
-            setfriendname(res.data.chatto || "");
-        } catch (err) {
-            console.error("Error fetching chatto:", err);
-        }
-    };
+//             setfriendname(res.data.chatto || "");
+//         } catch (err) {
+//             console.error("Error fetching chatto:", err);
+//         }
+//     };
 
-    datafromserverforheader();
+//     datafromserverforheader();
 
-    const interval = setInterval(() => {
-        console.log("Interval running...");
-        datafromserverforheader();
-    }, 1000);
+//     const interval = setInterval(() => {
+//         console.log("Interval running...");
+//         datafromserverforheader();
+//     }, 1000);
 
-    return () => {
-        console.log("Header Unmounted");
-        clearInterval(interval);
-    };
-}, []);
+//     return () => {
+//         console.log("Header Unmounted");
+//         clearInterval(interval);
+//     };
+// }, []);
 
 
 
@@ -51,7 +51,7 @@ useEffect(() => {
         <div id='CSHeaderbox'>
             <div id="profname">
                 <img src="/pexels-caleb-lamb-597215774-35911819.jpg" alt="" />
-                <h2>{friendname}</h2>
+                <h2>{chatto}</h2>
             </div>
             <button onClick={hs}>Logout</button>
         </div>

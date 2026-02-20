@@ -4,12 +4,12 @@ import CSHeader from './CSHeader'
 import Typemsg from './Typemsg'
 import Messages from './messages'
 
-const ChatingSpace = ({ setauth, setshm }) => {
+const ChatingSpace = ({ chatto,setauth, setshm }) => {
   return (
     <div id='ChatingSpacebox'>
-      <CSHeader setshm={setshm} setauth={setauth} />
+      <CSHeader chatto={chatto} setshm={setshm} setauth={setauth} />
       <Messages/>
-      <Typemsg />
+      <Typemsg chatto={chatto} />
     </div>
   )
 }

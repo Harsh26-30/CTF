@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Chatinglist.css';
 import axios from 'axios';
 
-const Chatinglist = () => {
+const Chatinglist = ({onclickli}) => {
   const [friends, setFriends] = useState([]);
   const baseURL = "https://ctf-3ztj.onrender.com";
 
@@ -39,6 +39,7 @@ const Chatinglist = () => {
     } catch (err) {
       console.error("Error selecting friend to chat:", err.response?.data || err.message);
     }
+    onclickli(friendID)
   };
 
   return (
