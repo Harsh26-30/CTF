@@ -9,7 +9,7 @@ const Typemsg = ({chatto}) => {
 
   const [usertypemsg, setusertypemsg] = useState("")
   const [fromUserID, setfromUserID] = useState("")
-  const [toUserID, settoUserID] = useState("")
+  const [toUserID, settoUserID] = useState(chatto)
 
   useEffect(() => {
     // Connected to server
@@ -47,7 +47,7 @@ const Typemsg = ({chatto}) => {
     };
   }, []); // empty dependency → run once
 
-  settoUserID(chatto)
+
 
   const hs = (e) => {
     e.preventDefault();

@@ -33,9 +33,6 @@ const Messages = ({ userID,chatto }) => {
   }, [userID]);
   
     setchattinguser(chatto)
-  
-
-
   return (
     <div>
       <h2>Messages</h2>
