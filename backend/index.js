@@ -340,14 +340,10 @@ app.get('/userid', (req, res) => {
 const onlineUsers = {};
 
 io.on("connection", (socket) => {
-  // socket.on("testMessage", (data) => {
-  //   console.log(socket.id, data.msg);
-  // });
-
-  // Server
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;
-    console.log("Online users:", onlineUsers);
+    // console.log("Online users:", onlineUsers);
+    console.log("connection established");
   });
 
   socket.on("sendMessageToUser", ({ toUserID, fromUserID, message }) => {
@@ -366,7 +362,6 @@ io.on("connection", (socket) => {
     }
     console.log("User disconnected. Online users:", onlineUsers);
   });
-
 });
 
 app.get("*", (req, res) => {
