@@ -8,7 +8,7 @@ const ChatingSpace = ({ chatto,setauth, setshm }) => {
   return (
     <div id='ChatingSpacebox'>
       <CSHeader chatto={chatto} setshm={setshm} setauth={setauth} />
-      <Messages/>
+      <Messages chatto={chatto}/>
       <Typemsg chatto={chatto} />
     </div>
   )

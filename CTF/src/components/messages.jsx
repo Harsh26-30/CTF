@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from "../socket";
+// import axios from 'axios';
 
-const Messages = ({ userID }) => {
+const Messages = ({ userID,chatto }) => {
 
   const [messages, setMessages] = useState([]);
   const [chattinguser, setchattinguser] = useState("");
@@ -31,13 +32,9 @@ const Messages = ({ userID }) => {
 
   }, [userID]);
   
-    const sendto = async () => {
-    const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
-      withCredentials: true
-    });
-    setchattinguser(res.data.chatto)
-  }
-  sendto();
+    setchattinguser(chatto)
+  
+
 
   return (
     <div>
