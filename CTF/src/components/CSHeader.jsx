@@ -6,7 +6,6 @@ const API = import.meta.env.VITE_API_URL;
 
 const CSHeader = ({ chatto, setauth, setshm }) => {
     // const [userlogout, setuserlogout] = useState("")
-    const [friendname, setfriendname] = useState("none")
     const hs = async (e) => {
         e.preventDefault();
         const res = await axios.get(`${API}/logout`, {
@@ -17,36 +16,6 @@ const CSHeader = ({ chatto, setauth, setshm }) => {
         console.log(res.data);
 
     }
-    // useEffect(() => {
-    //     console.log("Header Mounted");
-
-    //     const datafromserverforheader = async () => {
-    //         console.log("API calling...");
-    //         try {
-    //             const res = await axios.get("VITE_API_URL/chatto", {
-    //                 withCredentials: true
-    //             });
-    //             console.log("Response:", res.data);
-
-    //             setfriendname(res.data.chatto || "");
-    //         } catch (err) {
-    //             console.error("Error fetching chatto:", err);
-    //         }
-    //     };
-
-    //     datafromserverforheader();
-
-    //     const interval = setInterval(() => {
-    //         console.log("Interval running...");
-    //         datafromserverforheader();
-    //     }, 1000);
-
-    //     return () => {
-    //         console.log("Header Unmounted");
-    //         clearInterval(interval);
-    //     };
-    // }, []);
-
 
 
     return (

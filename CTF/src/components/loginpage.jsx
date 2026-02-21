@@ -9,15 +9,10 @@ const loginpage = ({ sendDataS }) => {
   const [pass, setPass] = useState("")
   const hs = async (e) => {             //hs-handlesubmit
     e.preventDefault();
-    const res = await axios.get(`${API}/login`,
-      {
-        email,
-        pass
-      },
-      {
-        withCredentials: true
-      }
-    );
+    const res = await axios.get(`${API}/login`, {
+  params: { email, pass },
+  withCredentials: true
+});
 
     sendDataS(res.data)
   }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './SignUp.css'
 import axios from "axios";
+const API = import.meta.env.VITE_API_URL;
+
 
 const SignUp = ({ sendDataS }) => {
   const [username, setuserName] = useState("");
@@ -16,15 +18,14 @@ const SignUp = ({ sendDataS }) => {
 
   const hs = async (e) => {             //hs-handlesubmit
     e.preventDefault();
-    const res = await axios.post("VITE_API_URL/signup", {
-      username: username,
-      userid: userid,
-      email: email,
-      pass: pass
-    },
-      {
-        withCredentials: true  // <--- this sends cookies
-      });
+    const res = await axios.post(`${API}/signup`, {
+      username,
+      userid,
+      email,
+      pass
+    }, {
+      withCredentials: true
+    });
     // setshm(res.data.shm)
     // setauth(res.data.auth)
     sendDataS(res.data)

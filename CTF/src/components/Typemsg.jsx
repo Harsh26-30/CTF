@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import './Typemsg.css';
 import axios from "axios";
 import { socket } from "../socket";
+const API = import.meta.env.VITE_API_URL;
 
 const Typemsg = ({ chatto, onSend }) => {
 
