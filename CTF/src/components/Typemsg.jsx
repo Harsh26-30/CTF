@@ -58,7 +58,7 @@ const Typemsg = ({chatto}) => {
       fromUserID,
       message: usertypemsg
     });
-    setusertypemsg("");
+    setusertypemsg();
   };
 
 
