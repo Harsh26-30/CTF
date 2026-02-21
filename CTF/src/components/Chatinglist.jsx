@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './Chatinglist.css';
 import axios from 'axios';
 
-const Chatinglist = ({onclickli}) => {
+const Chatinglist = ({ onclickli }) => {
   const [friends, setFriends] = useState([]);
+  const [havemsg, sethavemsg] = useState();
+
   const baseURL = "https://ctf-3ztj.onrender.com";
 
   const fetchFriends = async () => {
@@ -42,6 +44,16 @@ const Chatinglist = ({onclickli}) => {
     onclickli(friendID)
   };
 
+  const handleReceive = (data) => {
+    // console.log("Message received:", data);
+    // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
+    if (data){
+      sethavemsg("msg")
+    }
+  };
+
+  socket.on("receiveMessage", handleReceive);
+
   return (
     <div id='Chatinglistbox'>
       <ul>
@@ -54,6 +66,7 @@ const Chatinglist = ({onclickli}) => {
               alt="friendimg"
             />
             <span>{friend}</span>
+            <p>{havemsg}</p>
           </li>
         ))}
       </ul>
