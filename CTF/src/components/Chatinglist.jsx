@@ -40,7 +40,6 @@ const Chatinglist = ({ onclickli,arrowval }) => {
     onclickli(friendID)
     sethavemsg("")
     setfromuserID(false)
-    setwidths("0%")
   };
 
   const handleReceive = (data) => {
