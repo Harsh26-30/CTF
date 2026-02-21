@@ -52,10 +52,13 @@ const Messages = ({ userID, chatto, sendmsg,onClick }) => {
     setChattingUser(chatto);
   }, [chatto]);
 
-  const ar = async (params) => {
-    setlistval(true)
-    await onClick(listval)
-  }
+ const ar = () => {
+  setlistval(prev => {
+    const newVal = !prev;
+    onClick(newVal);
+    return newVal;
+  });
+};
   return (
     <div>
       <button onClick={ar}>ar</button>
