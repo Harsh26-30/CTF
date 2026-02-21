@@ -57,14 +57,11 @@ const Chatinglist = ({ onclickli }) => {
     // console.log("Message received:", data);
     // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
     if (data) {
-        sethavemsg("msg")
-        setfromuserID(true)
+      sethavemsg("msg")
+      setfromuserID(true)
     }
   };
 
-  if(curentchat===fromuserID){
-    setfromuserID(false)
-  }
 
   socket.on("receiveMessage", handleReceive);
 
