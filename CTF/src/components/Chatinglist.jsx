@@ -8,6 +8,8 @@ const Chatinglist = ({ onclickli }) => {
   const [friends, setFriends] = useState([]);
   const [havemsg, sethavemsg] = useState();
   const [fromuserID, setfromuserID] = useState();
+  const [curentchat, setcurentchat] = useState();
+
 
 
   const baseURL = "https://ctf-3ztj.onrender.com";
@@ -45,6 +47,7 @@ const Chatinglist = ({ onclickli }) => {
     // } catch (err) {
     //   console.error("Error selecting friend to chat:", err.response?.data || err.message);
     // }
+    setcurentchat(friendID)
     onclickli(friendID)
     sethavemsg("")
     setfromuserID()
@@ -53,9 +56,14 @@ const Chatinglist = ({ onclickli }) => {
   const handleReceive = (data) => {
     // console.log("Message received:", data);
     // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
-    if (data){
-      sethavemsg("msg")
-      setfromuserID(data.fromUserID)
+    if (data) {
+      if (curentchat === fromuserID) {
+        sethavemsg("")
+        setfromuserID()
+      } else {
+        sethavemsg("msg")
+        setfromuserID(data.fromUserID)
+      }
     }
   };
 
@@ -73,7 +81,7 @@ const Chatinglist = ({ onclickli }) => {
               alt="friendimg"
             />
             <span>{friend}</span>
-            {fromuserID===friend && <p>{havemsg}</p>}
+            {fromuserID === friend && <p>{havemsg}</p>}
           </li>
         ))}
       </ul>
