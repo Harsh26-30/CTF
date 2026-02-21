@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './Chatinglist.css';
 import axios from 'axios';
+import { socket } from "../socket";
+
 
 const Chatinglist = ({ onclickli }) => {
   const [friends, setFriends] = useState([]);
