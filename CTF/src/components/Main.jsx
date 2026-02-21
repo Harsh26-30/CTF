@@ -4,9 +4,9 @@ import Chatinglist from './Chatinglist'
 import ChatingSpace from './ChatingSpace'
 import { useState } from 'react'
 
-const Main = ({ setshm, setauth,arrowval }) => {
+const Main = ({ setshm, setauth }) => {
   const[chatto ,setchatto]=useState("")
-  // const[arrowval ,setarrowval]=useState("")
+  const[arrowval ,setarrowval]=useState("")
 
   return (
     <div id='Mainbox'>

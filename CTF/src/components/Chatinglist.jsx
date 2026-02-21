@@ -48,7 +48,6 @@ const Chatinglist = ({ onclickli,arrowval }) => {
     setwidths("48%")
   }
 
-
   const handleReceive = (data) => {
     // console.log("Message received:", data);
     // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
