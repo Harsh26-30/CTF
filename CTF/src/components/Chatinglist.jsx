@@ -61,8 +61,8 @@ const Chatinglist = ({ onclickli,arrowval }) => {
   socket.on("receiveMessage", handleReceive);
 
   return (
-    <div id='Chatinglistbox'>
-      <ul style={{width:widths}}>
+    <div style={{width:widths}} id='Chatinglistbox'>
+      <ul >
         {friends.length === 0 && <li>No friends yet</li>}
         {friends.map((friend, index) => (
           <li key={friend} onClick={() => hc(friend)}>
