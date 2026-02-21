@@ -5,6 +5,7 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     position: relative;
+    overflow: hidden;
 }
 
 #Chatinglistbox ul {
