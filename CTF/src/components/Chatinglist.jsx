@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Chatinglist.css';
 import axios from 'axios';
 import { socket } from "../socket";
-
+const API = import.meta.env.VITE_API_URL;
 
 const Chatinglist = ({ onclickli }) => {
   const [friends, setFriends] = useState([]);
@@ -12,7 +12,7 @@ const Chatinglist = ({ onclickli }) => {
 
 
 
-  const baseURL = "https://ctf-3ztj.onrender.com";
+  const baseURL = `${API}`;
 
   const fetchFriends = async () => {
     try {

@@ -2,48 +2,50 @@ import React, { useEffect } from 'react'
 import './CSHeader.css'
 import { useState } from 'react'
 import axios from 'axios'
+const API = import.meta.env.VITE_API_URL;
 
-const CSHeader = ({chatto, setauth, setshm }) => {
+const CSHeader = ({ chatto, setauth, setshm }) => {
     // const [userlogout, setuserlogout] = useState("")
     const [friendname, setfriendname] = useState("none")
     const hs = async (e) => {
         e.preventDefault();
-        const res = await axios.get("https://ctf-3ztj.onrender.com/logout");
-        setauth(res.data.auth);
+        const res = await axios.get(`${API}/logout`, {
+            withCredentials: true
+        }); setauth(res.data.auth);
         setshm(res.data.shm);
         console.log("click working");
         console.log(res.data);
 
     }
-// useEffect(() => {
-//     console.log("Header Mounted");
+    // useEffect(() => {
+    //     console.log("Header Mounted");
 
-//     const datafromserverforheader = async () => {
-//         console.log("API calling...");
-//         try {
-//             const res = await axios.get("https://ctf-3ztj.onrender.com/chatto", {
-//                 withCredentials: true
-//             });
-//             console.log("Response:", res.data);
+    //     const datafromserverforheader = async () => {
+    //         console.log("API calling...");
+    //         try {
+    //             const res = await axios.get("VITE_API_URL/chatto", {
+    //                 withCredentials: true
+    //             });
+    //             console.log("Response:", res.data);
 
-//             setfriendname(res.data.chatto || "");
-//         } catch (err) {
-//             console.error("Error fetching chatto:", err);
-//         }
-//     };
+    //             setfriendname(res.data.chatto || "");
+    //         } catch (err) {
+    //             console.error("Error fetching chatto:", err);
+    //         }
+    //     };
 
-//     datafromserverforheader();
+    //     datafromserverforheader();
 
-//     const interval = setInterval(() => {
-//         console.log("Interval running...");
-//         datafromserverforheader();
-//     }, 1000);
+    //     const interval = setInterval(() => {
+    //         console.log("Interval running...");
+    //         datafromserverforheader();
+    //     }, 1000);
 
-//     return () => {
-//         console.log("Header Unmounted");
-//         clearInterval(interval);
-//     };
-// }, []);
+    //     return () => {
+    //         console.log("Header Unmounted");
+    //         clearInterval(interval);
+    //     };
+    // }, []);
 
 
 

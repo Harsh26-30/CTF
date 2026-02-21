@@ -16,7 +16,7 @@ const Typemsg = ({ chatto, onSend }) => {
 
     const register = async () => {
       const res = await axios.get(
-        "https://ctf-3ztj.onrender.com/userid",
+        `${API}/userid`,
         { withCredentials: true }
       );
       setfromUserID(res.data.userid);

@@ -16,7 +16,7 @@ const SignUp = ({ sendDataS }) => {
 
   const hs = async (e) => {             //hs-handlesubmit
     e.preventDefault();
-    const res = await axios.post("https://ctf-3ztj.onrender.com/signup", {
+    const res = await axios.post("VITE_API_URL/signup", {
       username: username,
       userid: userid,
       email: email,

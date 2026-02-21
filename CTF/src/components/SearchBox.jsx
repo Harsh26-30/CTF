@@ -2,6 +2,7 @@ import React from 'react'
 import './SearchBox.css'
 import { useState } from 'react'
 import axios from "axios";
+const API = import.meta.env.VITE_API_URL;
 
 const SearchBox = () => {
   const [userid, setuserid] = useState()
@@ -15,7 +16,7 @@ const SearchBox = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://ctf-3ztj.onrender.com/finduser",
+        `${API}/finduser`,
         { userid }
       );
 
@@ -33,7 +34,7 @@ const SearchBox = () => {
 
   const hadd = async (e) => {
     e.preventDefault();
-    const res = await axios.post("https://ctf-3ztj.onrender.com/addfriend", {
+    const res = await axios.post(`${API}/addfriend`, {
       userid: userid
     }, {
       withCredentials: true   // <--- ye must hai
@@ -45,7 +46,7 @@ const SearchBox = () => {
 
   const hremove = async (e) => {
     e.preventDefault();
-    const res = await axios.post("https://ctf-3ztj.onrender.com/removefriend", {
+    const res = await axios.post(`${API}/removefriend`, {
       userid: userid
     }, {
       withCredentials: true   // <--- ye must hai

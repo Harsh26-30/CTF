@@ -2,14 +2,14 @@ import React from 'react'
 import './loginpage.css'
 import axios from 'axios'
 import { useState } from 'react'
+const API = import.meta.env.VITE_API_URL;
 
 const loginpage = ({ sendDataS }) => {
   const [email, setEmail] = useState("")
   const [pass, setPass] = useState("")
   const hs = async (e) => {             //hs-handlesubmit
     e.preventDefault();
-    const res = await axios.post(
-      "https://ctf-3ztj.onrender.com/login",
+    const res = await axios.get(`${API}/login`,
       {
         email,
         pass
