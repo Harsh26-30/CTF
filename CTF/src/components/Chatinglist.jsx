@@ -60,7 +60,8 @@ const Chatinglist = ({ onclickli }) => {
       if (curentchat === fromuserID) {
         sethavemsg("")
         setfromuserID()
-      } else {
+      } 
+      else if(curentchat !== fromuserID){
         sethavemsg("msg")
         setfromuserID(data.fromUserID)
       }
