@@ -8,8 +8,9 @@ h2{
 }
 
 h2:hover{
-    background-color: rgba(0, 0, 0, 0.21);
+    background-color: #102A24;
     border-radius: 50px;
     font-size: 25px;
     padding: 5px;
+    color: #B7DAD3;
 }
