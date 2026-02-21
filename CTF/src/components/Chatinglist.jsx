@@ -4,11 +4,12 @@ import axios from 'axios';
 import { socket } from "../socket";
 
 
-const Chatinglist = ({ onclickli }) => {
+const Chatinglist = ({ onclickli,arrowval }) => {
   const [friends, setFriends] = useState([]);
   const [havemsg, sethavemsg] = useState();
   const [fromuserID, setfromuserID] = useState();
   const [curentchat, setcurentchat] = useState();
+  const [widths, setwidths] = useState();
 
 
 
@@ -36,23 +37,16 @@ const Chatinglist = ({ onclickli }) => {
   }, []);
 
   const hc = async (friendID) => {
-    // try {
-    //   const res = await axios.post(
-    //     `${baseURL}/wanttochat`,
-    //     { friendID },
-    //     { withCredentials: true }
-    //   );
-
-    //   console.log("Chat selected:", res.data);
-    // } catch (err) {
-    //   console.error("Error selecting friend to chat:", err.response?.data || err.message);
-    // }
     setcurentchat(friendID)
     onclickli(friendID)
     sethavemsg("")
     setfromuserID(false)
+    setwidths("0%")
   };
 
+  if(arrowval){
+    setwidths("48%")
+  }
 
 
   const handleReceive = (data) => {
@@ -65,20 +59,11 @@ const Chatinglist = ({ onclickli }) => {
     }
   };
 
-  //  if (data.friendID === curentchat) {
-  //       sethavemsg("")
-  //       setfromuserID(false)
-  //     } else {
-  //       sethavemsg("msg")
-  //       setfromuserID(data.fromUserID)
-  //     }
-
-
   socket.on("receiveMessage", handleReceive);
 
   return (
     <div id='Chatinglistbox'>
-      <ul>
+      <ul style={{width:widths}}>
         {friends.length === 0 && <li>No friends yet</li>}
         {friends.map((friend, index) => (
           <li key={friend} onClick={() => hc(friend)}>

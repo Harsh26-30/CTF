@@ -4,12 +4,14 @@ import Chatinglist from './Chatinglist'
 import ChatingSpace from './ChatingSpace'
 import { useState } from 'react'
 
-const Main = ({ setshm, setauth }) => {
+const Main = ({ setshm, setauth,arrowval }) => {
   const[chatto ,setchatto]=useState("")
+  const[arrowval ,setarrowval]=useState("")
+
   return (
     <div id='Mainbox'>
-      <Chatinglist onclickli={setchatto}/>
-      <ChatingSpace chatto={chatto}  setauth={setauth} setshm={setshm} />
+      <Chatinglist arrowval={arrowval} onclickli={setchatto}/>
+      <ChatingSpace chatto={chatto} onclickar={setarrowval}  setauth={setauth} setshm={setshm} />
     </div>
   )
 }

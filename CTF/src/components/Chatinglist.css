@@ -30,7 +30,7 @@
     justify-content: flex-start;
     width: 100%;
     height: 10%;
-    margin-left:15px;
+    margin-left: 15px;
     /* background-color: green; */
     border-bottom: white 1px solid;
 }
@@ -68,5 +68,12 @@
 
     #Chatinglistbox {
         width: 18%;
+    }
+}
+
+@media (max-width:465px) {
+    #Chatinglistbox {
+        width: 48%;
+        height: 123%;
     }
 }

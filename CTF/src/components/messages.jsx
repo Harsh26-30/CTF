@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from "../socket";
 
-const Messages = ({ userID, chatto, sendmsg }) => {
+const Messages = ({ userID, chatto, sendmsg,onClick }) => {
   const [messages, setMessages] = useState([]);
   const [chattinguser, setChattingUser] = useState("");
+  const [listval, setlistval] = useState();
+
+    
 
   // Register + receive
   useEffect(() => {
@@ -49,8 +52,13 @@ const Messages = ({ userID, chatto, sendmsg }) => {
     setChattingUser(chatto);
   }, [chatto]);
 
+  const ar = async (params) => {
+    setlistval(true)
+    await onClick(listval)
+  }
   return (
     <div>
+      <button onClick={ar}>ar</button>
       <h2>Messages</h2>
 
       {messages
