@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from "../socket";
 
-const Messages = ({ userID, chatto, sendmsg,onClick }) => {
+const Messages = ({ userID, chatto, sendmsg,onclick }) => {
   const [messages, setMessages] = useState([]);
   const [chattinguser, setChattingUser] = useState("");
   const [listval, setlistval] = useState();
@@ -53,11 +53,8 @@ const Messages = ({ userID, chatto, sendmsg,onClick }) => {
   }, [chatto]);
 
  const ar = () => {
-  setlistval(prev => {
-    const newVal = !prev;
-    onClick(newVal);
-    return newVal;
-  });
+    onclick(false);
+
 };
   return (
     <div>
