@@ -5,7 +5,7 @@ import { socket } from "../socket";
 
 
 
-const Typemsg = ({chatto}) => {
+const Typemsg = ({chatto,onSend}) => {
 
   const [usertypemsg, setusertypemsg] = useState("")
   const [fromUserID, setfromUserID] = useState("")
@@ -59,6 +59,7 @@ const Typemsg = ({chatto}) => {
       message: usertypemsg
     });
     setusertypemsg();
+    onSend(usertypemsg)
   };
 
 

@@ -3,13 +3,15 @@ import './ChatingSpace.css'
 import CSHeader from './CSHeader'
 import Typemsg from './Typemsg'
 import Messages from './messages'
+import { useState } from 'react'
 
 const ChatingSpace = ({ chatto,setauth, setshm }) => {
+  const[sendmsg,setsendmsg]=useState()
   return (
     <div id='ChatingSpacebox'>
       <CSHeader chatto={chatto} setshm={setshm} setauth={setauth} />
-      <Messages chatto={chatto}/>
-      <Typemsg chatto={chatto} />
+      <Messages sendmsg={sendmsg} chatto={chatto}/>
+      <Typemsg onSend={setsendmsg} chatto={chatto} />
     </div>
   )
 }

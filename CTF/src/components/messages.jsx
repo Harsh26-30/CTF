@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from "../socket";
 
-const Messages = ({ userID, chatto }) => {
+const Messages = ({ userID, chatto, sendmsg }) => {
   const [messages, setMessages] = useState([]);
+  const [chattinguser, setChattingUser] = useState("");
 
-  // Register user + receive message
+  // Register + receive
   useEffect(() => {
     if (userID) {
       socket.emit("registerUser", userID);
@@ -12,8 +13,6 @@ const Messages = ({ userID, chatto }) => {
     }
 
     const handleReceive = (data) => {
-      console.log("Message received:", data);
-
       setMessages(prev => [
         ...prev,
         {
@@ -31,20 +30,42 @@ const Messages = ({ userID, chatto }) => {
     };
   }, [userID]);
 
+  // 👇 Jab sendmsg aaye, usko bhi add karo
+  useEffect(() => {
+    if (sendmsg && chatto) {
+      setMessages(prev => [
+        ...prev,
+        {
+          from: userID,
+          to: chatto,
+          text: sendmsg
+        }
+      ]);
+    }
+  }, [sendmsg]);
+
+  // Update chatting user
+  useEffect(() => {
+    setChattingUser(chatto);
+  }, [chatto]);
+
   return (
     <div>
       <h2>Messages</h2>
 
       {messages
         .filter(msg =>
-          (msg.from === userID && msg.to === chatto) ||
-          (msg.from === chatto && msg.to === userID)
+          (msg.from === userID && msg.to === chattinguser) ||
+          (msg.from === chattinguser && msg.to === userID)
         )
         .map((msg, index) => (
-          <div key={index} style={{
-            textAlign: msg.from === userID ? "right" : "left",
-            margin: "5px"
-          }}>
+          <div
+            key={index}
+            style={{
+              textAlign: msg.from === userID ? "right" : "left",
+              margin: "5px"
+            }}
+          >
             <b>{msg.from === userID ? "You" : msg.from}:</b> {msg.text}
           </div>
         ))
