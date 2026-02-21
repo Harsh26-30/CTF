@@ -9,7 +9,6 @@ const Chatinglist = ({ onclickli,arrowval }) => {
   const [havemsg, sethavemsg] = useState();
   const [fromuserID, setfromuserID] = useState();
   const [curentchat, setcurentchat] = useState();
-  const [widths, setwidths] = useState();
 
 
 
@@ -44,10 +43,6 @@ const Chatinglist = ({ onclickli,arrowval }) => {
     setwidths("0%")
   };
 
-  if(arrowval){
-    setwidths("48%")
-  }
-
   const handleReceive = (data) => {
     // console.log("Message received:", data);
     // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
@@ -61,7 +56,8 @@ const Chatinglist = ({ onclickli,arrowval }) => {
   socket.on("receiveMessage", handleReceive);
 
   return (
-    <div style={{width:widths}} id='Chatinglistbox'>
+    <div style={{    width: arrowval ? "48%" : "0%",
+}} id='Chatinglistbox'>
       <ul >
         {friends.length === 0 && <li>No friends yet</li>}
         {friends.map((friend, index) => (

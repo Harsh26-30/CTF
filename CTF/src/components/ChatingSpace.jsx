@@ -9,7 +9,6 @@ import { on } from 'ws'
 const ChatingSpace = ({ chatto,setauth, setshm,onclickar }) => {
   const[sendmsg,setsendmsg]=useState()
   const[arrow,setarrow]=useState()
-  onclickar(arrow)
   return (
     <div id='ChatingSpacebox'>
       <CSHeader chatto={chatto} setshm={setshm} setauth={setauth} />

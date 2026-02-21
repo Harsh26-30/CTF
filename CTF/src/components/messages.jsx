@@ -52,10 +52,9 @@ const Messages = ({ userID, chatto, sendmsg,onclick }) => {
     setChattingUser(chatto);
   }, [chatto]);
 
- const ar = () => {
-    onclick(false);
-
-};
+const ar = () => {
+  onclick();
+};  
   return (
     <div>
       <button onClick={ar}>ar</button>
