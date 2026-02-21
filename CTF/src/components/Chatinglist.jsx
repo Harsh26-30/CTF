@@ -7,6 +7,8 @@ import { socket } from "../socket";
 const Chatinglist = ({ onclickli }) => {
   const [friends, setFriends] = useState([]);
   const [havemsg, sethavemsg] = useState();
+  const [fromuserID, setfromuserID] = useState();
+
 
   const baseURL = "https://ctf-3ztj.onrender.com";
 
@@ -51,6 +53,7 @@ const Chatinglist = ({ onclickli }) => {
     // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
     if (data){
       sethavemsg("msg")
+      setfromuserID(data.fromUserID)
     }
   };
 
@@ -68,7 +71,7 @@ const Chatinglist = ({ onclickli }) => {
               alt="friendimg"
             />
             <span>{friend}</span>
-            <p>{havemsg}</p>
+            {fromuserID===friend && <p>{havemsg}</p>}
           </li>
         ))}
       </ul>
