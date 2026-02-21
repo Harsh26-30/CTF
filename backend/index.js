@@ -340,17 +340,35 @@ app.get('/userid', (req, res) => {
 const onlineUsers = {};
 
 io.on("connection", (socket) => {
+
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;
-    // console.log("Online users:", onlineUsers);
     console.log("connection established");
   });
 
   socket.on("sendMessageToUser", ({ chatto, fromUserID, message }) => {
+
     const targetSocket = onlineUsers[chatto];
-    console.log("yes emiting", chatto, fromUserID, message);
+    const senderSocket = onlineUsers[fromUserID];
+
+    console.log("yes emitting", chatto, fromUserID, message);
+
+    // 👇 Receiver ko bhejo
     if (targetSocket) {
-      io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
+      io.to(targetSocket).emit("receiveMessage", {
+        fromUserID,
+        toUserID: chatto,
+        message
+      });
+    }
+
+    // 👇 Sender ko bhi bhejo (important)
+    if (senderSocket) {
+      io.to(senderSocket).emit("receiveMessage", {
+        fromUserID,
+        toUserID: chatto,
+        message
+      });
     }
   });
 
@@ -362,6 +380,7 @@ io.on("connection", (socket) => {
     }
     console.log("User disconnected. Online users:", onlineUsers);
   });
+
 });
 
 app.get("*", (req, res) => {
