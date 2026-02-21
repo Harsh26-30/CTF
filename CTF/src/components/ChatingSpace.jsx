@@ -8,11 +8,11 @@ import { on } from 'ws'
 
 const ChatingSpace = ({ chatto,setauth, setshm,onclickar }) => {
   const[sendmsg,setsendmsg]=useState()
-  const[arrow,setarrow]=useState()
+  
   return (
     <div id='ChatingSpacebox'>
       <CSHeader chatto={chatto} setshm={setshm} setauth={setauth} />
-      <Messages onclick={setarrow} sendmsg={sendmsg} chatto={chatto}/>
+      <Messages  sendmsg={sendmsg} chatto={chatto}/>
       <Typemsg onSend={setsendmsg} chatto={chatto} />
     </div>
   )

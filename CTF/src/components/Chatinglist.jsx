@@ -4,7 +4,7 @@ import axios from 'axios';
 import { socket } from "../socket";
 
 
-const Chatinglist = ({ onclickli,arrowval }) => {
+const Chatinglist = ({ onclickli }) => {
   const [friends, setFriends] = useState([]);
   const [havemsg, sethavemsg] = useState();
   const [fromuserID, setfromuserID] = useState();

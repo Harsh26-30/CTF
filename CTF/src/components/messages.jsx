@@ -51,13 +51,9 @@ const Messages = ({ userID, chatto, sendmsg,onclick }) => {
   useEffect(() => {
     setChattingUser(chatto);
   }, [chatto]);
-
-const ar = () => {
-  onclick();
-};  
+ 
   return (
     <div>
-      <button onClick={ar}>ar</button>
       <h2>Messages</h2>
 
       {messages

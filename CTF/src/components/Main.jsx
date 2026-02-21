@@ -6,23 +6,16 @@ import ChatingSpace from './ChatingSpace'
 const Main = ({ setshm, setauth }) => {
 
   const [chatto, setchatto] = useState("")
-  const [arrowval, setarrowval] = useState(true)
-
-  // 👇 YE FUNCTION MISSING THA
-  const toggleSidebar = () => {
-    setarrowval(prev => !prev)
-  }
 
   return (
     <div id='Mainbox'>
       <Chatinglist 
-        arrowval={arrowval} 
+  
         onclickli={setchatto}
       />
 
       <ChatingSpace 
         chatto={chatto} 
-        onclickar={toggleSidebar}  
         setauth={setauth} 
         setshm={setshm} 
       />
