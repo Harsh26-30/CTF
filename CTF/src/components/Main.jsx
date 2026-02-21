@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 const Main = ({ setshm, setauth,arrowval }) => {
   const[chatto ,setchatto]=useState("")
-  const[arrowval ,setarrowval]=useState("")
+  // const[arrowval ,setarrowval]=useState("")
 
   return (
     <div id='Mainbox'>
