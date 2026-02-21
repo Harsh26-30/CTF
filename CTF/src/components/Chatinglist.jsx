@@ -58,17 +58,21 @@ const Chatinglist = ({ onclickli }) => {
   const handleReceive = (data) => {
     // console.log("Message received:", data);
     // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
-
+    
     if (data) {
-      if (data.friendID === curentchat) {
-        sethavemsg("")
-        setfromuserID(false)
-      } else {
-        sethavemsg("msg")
-        setfromuserID(data.fromUserID)
-      }
+      sethavemsg("msg")
+      setfromuserID(data.fromUserID)
+      
     }
   };
+
+  //  if (data.friendID === curentchat) {
+  //       sethavemsg("")
+  //       setfromuserID(false)
+  //     } else {
+  //       sethavemsg("msg")
+  //       setfromuserID(data.fromUserID)
+  //     }
 
 
   socket.on("receiveMessage", handleReceive);
