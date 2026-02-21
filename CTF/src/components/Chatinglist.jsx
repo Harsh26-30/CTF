@@ -62,7 +62,6 @@ const Chatinglist = ({ onclickli }) => {
     if (data) {
       sethavemsg("msg")
       setfromuserID(data.fromUserID)
-      
     }
   };
 
