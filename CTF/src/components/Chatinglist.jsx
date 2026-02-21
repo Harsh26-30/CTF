@@ -58,7 +58,7 @@ const Chatinglist = ({ onclickli }) => {
     // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
     if (data) {
       sethavemsg("msg")
-      setfromuserID(true)
+      setfromuserID(data.fromUserID)
     }
   };
 
