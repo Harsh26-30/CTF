@@ -46,6 +46,8 @@ const Chatinglist = ({ onclickli }) => {
     //   console.error("Error selecting friend to chat:", err.response?.data || err.message);
     // }
     onclickli(friendID)
+    sethavemsg("")
+    setfromuserID()
   };
 
   const handleReceive = (data) => {
