@@ -55,8 +55,9 @@ const Chatinglist = ({ onclickli,arrowval }) => {
   socket.on("receiveMessage", handleReceive);
 
   return (
-    <div style={{    width: arrowval ? "48%" : "0%",
-}} id='Chatinglistbox'>
+    // style={{    width: arrowval ? "48%" : "0%",
+// }}
+    <div  id='Chatinglistbox'>
       <ul >
         {friends.length === 0 && <li>No friends yet</li>}
         {friends.map((friend, index) => (
