@@ -13,7 +13,10 @@ function App() {
   const [msgforheaderofNavbarM, setmsgforheaderofNavbarM] = useState(true)
   const [shm, setshm] = useState(false) //shm=show header main or not
 
-
+  // App.jsx ya kisi component me
+  useEffect(() => {
+    console.log("API URL:", import.meta.env.VITE_API_URL);
+  }, []);
   return (
     <>
       {shm && <Header msgforheaderofNavbarM={msgforheaderofNavbarM} />}
