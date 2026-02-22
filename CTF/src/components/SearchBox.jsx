@@ -11,6 +11,8 @@ const SearchBox = () => {
   const [userprofilename, setuserprofilename] = useState()
   const [add, setadd] = useState(false)
   const [remove, setremove] = useState(false)
+  const [searchresult, setsearchresult] = useState(false)
+
 
   const hs = async (e) => {
     e.preventDefault();
@@ -26,9 +28,10 @@ const SearchBox = () => {
       setremove(res.data.remove);
 
     } catch (err) {
-      console.error(err);
+      console.error(err,);
       alert("User not found or server error");
     }
+    setsearchresult(true)
   }
 
 
@@ -42,6 +45,7 @@ const SearchBox = () => {
     );
     setadd(res.data.add)
     setremove(res.data.remove)
+    setsearchresult(false)
   }
 
   const hremove = async (e) => {
@@ -54,6 +58,7 @@ const SearchBox = () => {
     );
     setadd(res.data.add)
     setremove(res.data.remove)
+    setsearchresult(false)
   }
 
   return (
@@ -62,20 +67,18 @@ const SearchBox = () => {
         <input type="text" name='usersearch' onChange={(e) => setuserid(e.target.value)} />
         <button type='submit'>Search</button>
       </form>
-      {isuser && <ul>
+      {isuser & searchresult && <ul>
         <li id='li1'> <img src="/pexels-caleb-lamb-597215774-35911819.jpg" alt="img" /></li>
         <li>{userprofilename}</li>
         <li>
           {add === false && remove === true && (
-            <button id='btnremove' onClick={hremove}>Remove</button>
+            <button id='btnremove' onClick={hremove}><img src="\person_remove_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Remove" /></button>
           )}
 
           {add === true && remove === false && (
-            <button id='btnadd' onClick={hadd}>Add</button>
+            <button id='btnadd' onClick={hadd}><img src="\person_add_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Add" /></button>
           )}
         </li>
-
-
       </ul>}
     </div>
   )

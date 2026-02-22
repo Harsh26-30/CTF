@@ -2,11 +2,25 @@
     background-color: #163832;
     width: 40vw;
     height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 7px;
+    padding: 5px;
+    border-radius: 20px;
+    border: 3px solid #B7DAD3;
+    box-shadow: 0px 0px 40px 1px #B7DAD3;
+}
+
+#loginpagebox h2{
+    font-size: 180%;
+    font-family: sans-serif;
 }
 
 #loginpagebox form{
-    width: 100%;
-    height: 100%;
+    width: 95%;
+    height: 87%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -14,13 +28,25 @@
 }
 
 #loginpagebox form input{
-    background-color: rgba(255, 255, 255, 0.452);
-    width: 100%;
+    background-color: #7FA8A1;
+    border: 1px solid #B7DAD3;
+    width: 90%;
     height: 10%;
+    color:#B7DAD3 ;
 }
 
 #loginpagebox form button{
-    width: 80%;
+    width: 60%;
     height: 15%;
-    background-color: green;
+    font-size: 150%;
+    color: #163832;
+    background-color: #B7DAD3;
+}
+
+#loginpagebox form button:focus{
+    width: 60%;
+    height: 15%;
+    font-size: 150%;
+    color: #B7DAD3;
+    background-color:  #5c7d78;
 }

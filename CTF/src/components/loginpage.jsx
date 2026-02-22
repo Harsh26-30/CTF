@@ -14,10 +14,10 @@ const loginpage = ({ sendDataS }) => {
   }
   return (
     <div id='loginpagebox'>
-      <center><h2>Login</h2></center>
+      <h2>Login</h2>
       <form onSubmit={hs}>
         <input type="text" name='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
-        <input type="text" name='pass' placeholder='Pass' onChange={(e) => setPass(e.target.value)} />
+        <input type="password" name='pass' placeholder='Pass' onChange={(e) => setPass(e.target.value)} />
         <button type='submit'>Login</button>
       </form>
     </div>

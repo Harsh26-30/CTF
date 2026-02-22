@@ -16,6 +16,12 @@ align-items: center;
     align-items: center;
 }
 
+h1{
+    font-family: sans-serif;
+    font-size: 250%;
+    font-weight: 700;
+}
+
 #Authenticationpagebox2{
     width: 90%;
     height: 95vh;

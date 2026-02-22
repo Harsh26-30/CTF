@@ -19,7 +19,7 @@ function App() {
   }, []);
   return (
     <>
-      {shm && <Header msgforheaderofNavbarM={msgforheaderofNavbarM} />}
+      {shm && <Header setshm={setshm} setauth={setauth} msgforheaderofNavbarM={msgforheaderofNavbarM} />}
       {shm && <Main setshm={setshm} setauth={setauth} />}
       {auth && <Authenticationpage setshm={setshm} setauth={setauth} />}
     </>

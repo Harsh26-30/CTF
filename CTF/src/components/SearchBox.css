@@ -1,5 +1,16 @@
+:root {
+  --bg-main: #0B1F1A;
+  --bg-card: #163832;
+  --primary: #1B9C85;
+  --primary-hover: #22BFA3;
+  --gold: #D4AF37;
+  --gold-hover: #E6C35C;
+  --text-main: #E8F6F3;
+  --text-secondary: #B7DAD3;
+}
+
 #Searchboxmain {
-    background-color: rgba(250, 243, 243, 0.15);
+    background-color: var(--primary);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     height: 5vh;
@@ -27,22 +38,24 @@
 }
 
 ul {
-    width: 40vw;
-    /* height: 50vh; */
+    width: 50vw;
     display: flex;
     z-index: 150;
+    background-color: var(--bg-card);
+    border: 1px solid white;
 }
 
 ul li {
     width: 30%;
-    height: 100%;
+    height: 5vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 ul li img {
-    width: 20%;
+    width: 40%;
     height: 100%;
     border-radius: 30px;
 }
@@ -64,17 +77,19 @@ li button {
 }
 
 #btnadd {
-    background-color: green;
-    width: 100%;
+    background-color: transparent;
+    width: 80%;
     height: 70%;
     cursor: pointer;
+    border: none;
 }
 
 #btnremove {
-    background-color: red;
-    width: 100%;
+    background-color: transparent;
+    width: 80%;
     height: 70%;
     cursor: pointer;
+    border: none;
 }
 
 @media (max-width:1119px) {

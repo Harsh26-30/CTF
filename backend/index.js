@@ -5,6 +5,11 @@ const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo").default;
 const http = require("http");
 const { Server } = require("socket.io");
+require('dotenv').config();
+
+const FRONTEND_URL = process.env.NODE_ENV === "production"
+  ? process.env.FRONTEND_URL_PROD
+  : process.env.FRONTEND_URL;
 
 const app = express();
 const server = http.createServer(app);
@@ -12,13 +17,13 @@ const port = process.env.PORT || 5000;
 
 const io = new Server(server, {
   cors: {
-    origin: "https://ctf-3ztj.onrender.com",
+    origin: FRONTEND_URL,
     credentials: true
   }
 });
 
 app.use(cors({
-  origin: "https://ctf-3ztj.onrender.com",
+  origin: FRONTEND_URL,
   credentials: true
 }));
 
@@ -40,11 +45,10 @@ app.use(session({
     ttl: 14 * 24 * 60 * 60 // 14 days
   }),
   cookie: {
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     httpOnly: true,
-    sameSite: "none"
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
   }
-
 }));
 
 
@@ -81,6 +85,12 @@ const userSchma = new mongoose.Schema({
   },
   friend: [
 
+  ],
+  msg: [
+    {
+      from: { type: String },
+      message: { type: String }
+    }
   ]
 
 })
@@ -142,6 +152,7 @@ app.post('/login', async (req, res) => {
         email: sessionuser.email,
         chatto: ""
       };
+
       return res.json({
         "auth": false,
         "shm": true
@@ -154,9 +165,10 @@ app.post('/login', async (req, res) => {
 
 app.post('/finduser', async (req, res) => {
   const userid = req.body.userid;
-  console.log(req.session.user);
+  console.log(req.session.user, "s");
 
   if (req.session.user) {
+    console.log(req.session.user, "s");
     const userexist = await User.findOne({ userid: userid }); //checking whether userid alredy exist
     const ssuserid = await User.findOne({ userid: req.session.user.userid });
     const checkalraedy = ssuserid.friend.some(function (a) {
@@ -293,32 +305,6 @@ app.post('/removefriend', async (req, res) => {
   }
 });
 
-
-// app.post('/wanttochat', (req, res) => {
-//   const { friendID } = req.body;
-//   if (!req.session.user || !req.session.user.userid) {
-//     return res.status(401).json({ error: "Please login first" });
-//   }
-//   req.session.user.chatto = friendID;
-//   req.session.save((err) => {
-//     if (err) {
-//       console.log("Session save error:", err);
-//       return res.status(500).json({ error: "Session not saved" });
-//     }
-//     res.json({ success: true, chatto: friendID });
-//   });
-// });
-
-
-
-// app.get('/chatto', (req, res) => {
-//   // check if session and chatto exist
-//   const chatto = req.session.user?.chatto || null;
-//   res.json({ chatto });
-//   console.log("sending to",chatto);
-// });
-
-
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.clearCookie("connect.sid");
@@ -337,31 +323,53 @@ app.get('/userid', (req, res) => {
   }
 });
 
+// msgdata
+app.get('/msgdata', async (req, res) => {
+  if (req.session.user) {
+    const checkforuser = await User.findOne({ userid: req.session.user.userid });
+    const messages = checkforuser.msg; 
+    console.log("msgdata");
+    return res.json({messages})
+  }
+});
+
 const onlineUsers = {};
 
 io.on("connection", (socket) => {
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;
-    // console.log("Online users:", onlineUsers);
     console.log("connection established");
   });
 
-  socket.on("sendMessageToUser", ({ chatto, fromUserID, message }) => {
-    const targetSocket = onlineUsers[chatto];
-    console.log("yes emiting", chatto, fromUserID, message);
-    if (targetSocket) {
-      io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
-    }
-  });
+socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {
+  const targetSocket = onlineUsers[chatto];
+  console.log("yes emitting", chatto, fromUserID, message);
 
-  socket.on("disconnect", () => {
-    for (let userID in onlineUsers) {
-      if (onlineUsers[userID] === socket.id) {
-        delete onlineUsers[userID];
-      }
+  if (targetSocket) {
+    // If the user is online, send real-time message
+    io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
+  } else {
+    // If the user is offline, save the message in DB
+    const checkForUser = await User.findOne({ userid: chatto });
+    if (checkForUser) {
+      await User.updateOne(
+        { userid: chatto },   // receiver
+        { $push: { msg: { from: fromUserID, message } } } // use fromUserID from client
+      );
+    } else {
+      console.log("Receiver not found in DB:", chatto);
     }
-    console.log("User disconnected. Online users:", onlineUsers);
-  });
+  }
+});
+
+socket.on("disconnect", () => {
+  for (let userID in onlineUsers) {
+    if (onlineUsers[userID] === socket.id) {
+      delete onlineUsers[userID];
+    }
+  }
+  console.log("User disconnected. Online users:", onlineUsers);
+});
 });
 
 app.get("*", (req, res) => {

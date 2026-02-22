@@ -60,7 +60,7 @@ const Typemsg = ({ chatto, onSend }) => {
           value={usertypemsg}
           onChange={(e) => setusertypemsg(e.target.value)}
         />
-        <button type="submit">Send</button>
+        <button type="submit"><img src="\send_24dp_F3F3F3_FILL0_wght400_GRAD0_opsz24.png" alt="Send" /></button>
       </form>
     </div>
   );

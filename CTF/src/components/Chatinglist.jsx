@@ -9,11 +9,9 @@ const Chatinglist = ({ onclickli }) => {
   const [havemsg, sethavemsg] = useState();
   const [fromuserID, setfromuserID] = useState();
   const [curentchat, setcurentchat] = useState();
-
-
-
+  const [onclickforchat, setonclickforchat] = useState();
+  
   const baseURL = `${API}`;
-
   const fetchFriends = async () => {
     try {
       const res = await axios.get(`${baseURL}/myfriends`, {
@@ -31,21 +29,31 @@ const Chatinglist = ({ onclickli }) => {
     }
   };
 
-  useEffect(() => {
+useEffect(() => {
+  fetchFriends();
+
+  const interval = setInterval(() => {
     fetchFriends();
-  }, []);
+  }, 5000); // har 5 sec me refresh
+
+  return () => clearInterval(interval);
+}, []);
 
   const hc = async (friendID) => {
     setcurentchat(friendID)
     onclickli(friendID)
     sethavemsg("")
     setfromuserID(false)
+    setonclickforchat(true)
+  };
+  const ha = async (friendID) => {
+    setonclickforchat(false)
   };
 
   const handleReceive = (data) => {
     // console.log("Message received:", data);
     // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
-    
+
     if (data) {
       sethavemsg("msg")
       setfromuserID(data.fromUserID)
@@ -55,13 +63,11 @@ const Chatinglist = ({ onclickli }) => {
   socket.on("receiveMessage", handleReceive);
 
   return (
-    // style={{    width: arrowval ? "48%" : "0%",
-// }}
-    <div  id='Chatinglistbox'>
-      <ul >
+    <div style={{ left: onclickforchat ? "-248px" : "0", backgroundColor: onclickforchat ? "noColor" : "#163832", height: onclickforchat ? "0" : "86%" }} id='Chatinglistbox'>
+      <ul>
         {friends.length === 0 && <li>No friends yet</li>}
         {friends.map((friend, index) => (
-          <li key={friend} onClick={() => hc(friend)}>
+          <li style={{backgroundColor:fromuserID === friend ? "#027b65":"#014d3f"}} key={friend} onClick={() => hc(friend)}>
             <img
               id='profileimg'
               src="/pexels-caleb-lamb-597215774-35911819.jpg"
@@ -72,7 +78,9 @@ const Chatinglist = ({ onclickli }) => {
           </li>
         ))}
       </ul>
+      {onclickforchat && <button onClick={ha}><img src="\arrow_back_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="<--" /></button>}
     </div>
+    // {onclickforchat && <button>ad</button>}
   );
 };
 

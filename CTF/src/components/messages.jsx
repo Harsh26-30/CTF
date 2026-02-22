@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { socket } from "../socket";
+import axios from "axios"
+import './messages.css'
+const API = import.meta.env.VITE_API_URL;
 
-const Messages = ({ userID, chatto, sendmsg,onclick }) => {
+const Messages = ({ userID, chatto, sendmsg, onclick }) => {
   const [messages, setMessages] = useState([]);
   const [chattinguser, setChattingUser] = useState("");
   const [listval, setlistval] = useState();
 
-    
 
   // Register + receive
   useEffect(() => {
@@ -51,25 +53,41 @@ const Messages = ({ userID, chatto, sendmsg,onclick }) => {
   useEffect(() => {
     setChattingUser(chatto);
   }, [chatto]);
- 
+
+useEffect(() => {
+  const fetchMessages = async () => {
+    try {
+      const res = await axios.get(`${API}/msgdata`, {
+        withCredentials: true
+      });
+      // setMessages(res.data.messages);
+      console.log(res.data.message,"k");
+      
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchMessages();
+}, []); // dependency: jab chatting user change ho
+
   return (
     <div>
-      <h2>Messages</h2>
-
       {messages
         .filter(msg =>
           (msg.from === userID && msg.to === chattinguser) ||
           (msg.from === chattinguser && msg.to === userID)
         )
         .map((msg, index) => (
-          <div
+          <div id='messagebox'
             key={index}
             style={{
               textAlign: msg.from === userID ? "right" : "left",
               margin: "5px"
             }}
           >
-            <b>{msg.from === userID ? "You" : msg.from}:</b> {msg.text}
+            <p>{msg.text}</p>
+            {/* <b>{msg.from === userID ? "You" : msg.from}:</b> {msg.text} */}
           </div>
         ))
       }

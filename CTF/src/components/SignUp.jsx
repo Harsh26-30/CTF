@@ -44,7 +44,7 @@ const SignUp = ({ sendDataS }) => {
         {iserrormsgforuserid && <p>{errormsgforuserid}</p>}
         <input type="text" name='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
         {iserrormsgforemail && <p>{errormsgforemail}</p>}
-        <input type="text" name='pass' placeholder='Pass..' onChange={(e) => setPass(e.target.value)} />
+        <input type="password" name='pass' placeholder='Pass..' onChange={(e) => setPass(e.target.value)} />
         <button type='submit'>SignUp</button>
       </form>
     </div>

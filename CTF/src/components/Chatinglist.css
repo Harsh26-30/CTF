@@ -1,27 +1,54 @@
+:root {
+    --bg-main: #0B1F1A;
+    --bg-card: #163832;
+    --primary: #1B9C85;
+    --primary-hover: #22BFA3;
+    --gold: #D4AF37;
+    --gold-hover: #E6C35C;
+    --text-main: #E8F6F3;
+    --text-secondary: #B7DAD3;
+}
+
 #Chatinglistbox {
-    width: 30%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.15);
+    height: 86%;
+    background-color: var(--bg-card);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     position: relative;
-    overflow: hidden;
+    z-index: 100;
+    position: fixed;
+    /* left: -250px; */
+    display: inline-flex;
+    box-shadow:0px 0px 10px 1px  #E8F6F3;
+
 }
 
+
 #Chatinglistbox ul {
-    width: 100%;
+    width: 240px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    /* gap: 0; */
     list-style-type: none;
     background-color: transparent;
+    padding: 5px;
 }
 
-#Chatinglistbox #profileimg {
-    width: 20%;
-    height: 70%;
-    border-radius: 100%;
+#Chatinglistbox button{
+    height: 30px;
+    width: 40px;
+    border: none;
+    background-color: transparent;
+    margin-top: 10px;
+}
+
+#Chatinglistbox button img{
+    margin: 3px;
+}
+
+#Chatinglistbox ul li #profileimg {
+    width: 30px;
+    border-radius:100px;
 }
 
 #Chatinglistbox ul li {
@@ -30,10 +57,19 @@
     gap: 20px;
     justify-content: flex-start;
     width: 100%;
-    height: 10%;
-    margin-left: 15px;
-    /* background-color: green; */
-    border-bottom: white 1px solid;
+    height: 8%;
+    border: 2px solid var(--bg-main);
+    margin-bottom: 3px;
+    background-color: #014d3f;
+}
+
+#Chatinglistbox ul span{
+    color: white;
+    font-family: sans-serif;
+}
+
+#Chatinglistbox ul span:hover{
+    color: var(--gold-hover);
 }
 
 #Chatinglistbox ul li img {
@@ -46,9 +82,7 @@
 
 @media (min-width:852px) {
     #Chatinglistbox #profileimg {
-        background-color: red;
         width: 15%;
-
     }
 }
 
@@ -71,10 +105,3 @@
         width: 18%;
     }
 }
-
-/* @media (max-width:465px) {
-    #Chatinglistbox {
-        width: 48%;
-        height: 123%;
-    }
-} */
