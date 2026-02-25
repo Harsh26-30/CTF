@@ -67,7 +67,7 @@ const SearchBox = () => {
         <input type="text" name='usersearch' onChange={(e) => setuserid(e.target.value)} />
         <button type='submit'>Search</button>
       </form>
-      {isuser & searchresult && <ul>
+     {isuser && searchresult && <ul>
         <li id='li1'> <img src="/pexels-caleb-lamb-597215774-35911819.jpg" alt="img" /></li>
         <li>{userprofilename}</li>
         <li>

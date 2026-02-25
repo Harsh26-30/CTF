@@ -62,3 +62,9 @@ li button{
     color: #B7DAD3;
     background-color: #5c7d78;
 }
+
+@media (max-width:462px) {
+    #SignUpbox{
+        width: 70vw;
+    }
+}

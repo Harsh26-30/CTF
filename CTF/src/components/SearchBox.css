@@ -92,8 +92,15 @@ li button {
     border: none;
 }
 
-@media (max-width:1119px) {
+@media (max-width:1214px) {
     #Searchboxmain {
-        width: 40vw;
+        width: 35vw;
     }
 }
+
+@media (max-width:709px) {
+    div#Searchboxmain {
+        width: 80%;
+    }
+}
+

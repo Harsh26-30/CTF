@@ -50,3 +50,10 @@
     color: #B7DAD3;
     background-color:  #5c7d78;
 }
+
+/* 462 */
+@media (max-width:462px) {
+    #loginpagebox{
+        width: 70vw;
+    }
+}

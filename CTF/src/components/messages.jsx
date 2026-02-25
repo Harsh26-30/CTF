@@ -54,22 +54,7 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
     setChattingUser(chatto);
   }, [chatto]);
 
-useEffect(() => {
-  const fetchMessages = async () => {
-    try {
-      const res = await axios.get(`${API}/msgdata`, {
-        withCredentials: true
-      });
-      // setMessages(res.data.messages);
-      console.log(res.data.message,"k");
-      
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
-  fetchMessages();
-}, []); // dependency: jab chatting user change ho
 
   return (
     <div>

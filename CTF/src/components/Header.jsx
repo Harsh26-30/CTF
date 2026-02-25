@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import More from './More';
 import NavbarM from './NavbarM';
 
-const Header = ({ setauth, setshm }) => { // ✅ props pass from parent
+const Header = ({ setauth, setshm,setprofile }) => { // ✅ props pass from parent
 
     const [forNavbarM, setNavbarM] = useState(false);
 
@@ -17,9 +17,9 @@ const Header = ({ setauth, setshm }) => { // ✅ props pass from parent
         <div id='headerbox'>
             <h1>Chat To Friend</h1>
             <SearchBox />
-            <Navbar setauth={setauth} setshm={setshm} />  {/* ✅ pass props */}
+            <Navbar setprofile={setprofile} setauth={setauth} setshm={setshm} /> 
             <More onClick={changemsgNavbar} />
-            {forNavbarM && <NavbarM setauth={setauth} setshm={setshm} />} {/* ✅ pass props */}
+            {forNavbarM && <NavbarM setprofile={setprofile} setauth={setauth} setshm={setshm} />} 
         </div>
     )
 }

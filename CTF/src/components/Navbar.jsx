@@ -4,7 +4,7 @@ import axios from 'axios'
 const API = import.meta.env.VITE_API_URL;
 
 
-const Navbar = ({setauth, setshm}) => {
+const Navbar = ({ setauth, setshm, setprofile }) => {
   const hs = async (e) => {
     e.preventDefault();
     const res = await axios.get(`${API}/logout`, {
@@ -14,10 +14,16 @@ const Navbar = ({setauth, setshm}) => {
     console.log("click working");
     console.log(res.data);
   }
+
+  const handleclickprofile = async (e) => {
+    e.preventDefault();
+    setprofile(true);
+  }
+  
   return (
     <div id='Navbarbox'>
       <ul>
-        <li>Profile</li>
+        <li onClick={handleclickprofile}>Profile</li>
         <li>
           <button onClick={hs}>Logout</button>
         </li>

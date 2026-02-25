@@ -5,7 +5,18 @@ const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo").default;
 const http = require("http");
 const { Server } = require("socket.io");
+const cloudinary = require("cloudinary").v2;
 require('dotenv').config();
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const multer = require("multer");
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const FRONTEND_URL = process.env.NODE_ENV === "production"
   ? process.env.FRONTEND_URL_PROD
@@ -86,12 +97,10 @@ const userSchma = new mongoose.Schema({
   friend: [
 
   ],
-  msg: [
-    {
-      from: { type: String },
-      message: { type: String }
-    }
-  ]
+  profileImage: {
+  type: String,
+  default: ""
+}
 
 })
 
@@ -152,7 +161,7 @@ app.post('/login', async (req, res) => {
         email: sessionuser.email,
         chatto: ""
       };
-
+      // localStorage.setItem("isLoggedInCTF", `${sessionuser.userid}`);
       return res.json({
         "auth": false,
         "shm": true
@@ -162,6 +171,46 @@ app.post('/login', async (req, res) => {
     console.log('user not exist');
   }
 })
+
+app.get("/remainlogin", (req, res) => {
+  if (req.session.user) {
+    return res.json({
+      auth: true,
+      user: req.session.user
+    });
+  }
+
+  return res.status(401).json({
+    auth: false
+  });
+});
+
+// app.post("/uploadProfile", upload.single("image"), async (req, res) => {
+//   try {
+//     const file = req.file;
+
+//     const result = await cloudinary.uploader.upload_stream(
+//       { folder: "profile_images" },
+//       async (error, result) => {
+//         if (error) return res.status(500).json({ error });
+
+//         // MongoDB me URL save karo
+//         await User.updateOne(
+//           { email: req.session.user.email },
+//           { profileImage: result.secure_url }
+//         );
+
+//         res.json({ imageUrl: result.secure_url });
+//       }
+//     );
+
+//     const stream = result;
+//     stream.end(file.buffer);
+
+//   } catch (err) {
+//     res.status(500).json({ error: "Upload failed" });
+//   }
+// });
 
 app.post('/finduser', async (req, res) => {
   const userid = req.body.userid;

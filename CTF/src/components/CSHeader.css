@@ -66,3 +66,16 @@ button {
         width: 4%;
     }
 }
+
+@media (min-width:707px) {
+#CSHeaderbox {
+    width: 94%;
+ 
+}
+}
+@media (min-width:1212px) {
+#CSHeaderbox {
+    width: 125%;
+ 
+}
+}

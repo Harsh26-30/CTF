@@ -3,7 +3,7 @@ import './Main.css'
 import Chatinglist from './Chatinglist'
 import ChatingSpace from './ChatingSpace'
 
-const Main = ({ setshm, setauth }) => {
+const Main = ({ setshm, setauth,profile }) => {
 
   const [chatto, setchatto] = useState("")
 
@@ -19,6 +19,8 @@ const Main = ({ setshm, setauth }) => {
         setauth={setauth} 
         setshm={setshm} 
       />
+
+      
     </div>
   )
 }

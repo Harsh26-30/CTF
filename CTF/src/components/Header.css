@@ -7,6 +7,22 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
-#headerbox h1{
+
+#headerbox h1 {
     font-family: sans-serif;
 }
+
+@media (max-width:709px) {
+    h1 {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width:280px) {
+    #headerbox h1 {
+        font-size: 30px;
+        text-align: center;
+    }
+}
+

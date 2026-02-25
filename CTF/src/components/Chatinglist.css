@@ -19,9 +19,11 @@
     position: fixed;
     /* left: -250px; */
     display: inline-flex;
-    box-shadow:0px 0px 10px 1px  #E8F6F3;
 
 }
+
+/* // style={{ left: onclickforchat ? "-248px" : "0", backgroundColor: onclickforchat ? "noColor" : "#163832", height: onclickforchat ? "0" : "86%" }} */
+
 
 
 #Chatinglistbox ul {
@@ -102,6 +104,19 @@
     }
 
     #Chatinglistbox {
-        width: 18%;
+        gap: 10px;
     }
 }
+
+/* @media (max-width:381px) {
+    #Chatinglistbox ul {
+    width: 358px;
+    }
+} */
+
+/* @media (min-width:706px) {
+    div#Chatinglistbox {
+    position: initial;
+    left:0;
+}
+} */

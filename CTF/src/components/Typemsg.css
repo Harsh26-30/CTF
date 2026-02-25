@@ -45,3 +45,10 @@ form button{
     background-color: var(--bg-card);
     font-size: 20px;
 }
+
+@media (min-width:707px) {
+#Typemsgbox  {
+    width: 93%;
+ 
+}
+}

@@ -4,3 +4,10 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+
+@media (min-width:709px) {
+    div#Mainbox {
+    flex-direction: column;
+}
+}

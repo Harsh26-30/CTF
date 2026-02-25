@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './loginsignupnav.css'
+const API = import.meta.env.VITE_API_URL;
 
 const loginsignupnav = (props) => {
     const handell = async () => {
@@ -15,6 +16,7 @@ const loginsignupnav = (props) => {
             showsignup: true
         })
     }
+    
 
     return (
         <div id='loginsignupnavbox'>
