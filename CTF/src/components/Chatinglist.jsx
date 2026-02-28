@@ -10,7 +10,7 @@ const Chatinglist = ({ onclickli }) => {
   const [fromuserID, setfromuserID] = useState();
   const [curentchat, setcurentchat] = useState();
   const [onclickforchat, setonclickforchat] = useState();
-  
+
   const baseURL = `${API}`;
   const fetchFriends = async () => {
     try {
@@ -29,15 +29,15 @@ const Chatinglist = ({ onclickli }) => {
     }
   };
 
-useEffect(() => {
-  fetchFriends();
 
-  const interval = setInterval(() => {
+  useEffect(() => {
     fetchFriends();
-  }, 5000); // har 5 sec me refresh
+    const interval = setInterval(() => {
+      fetchFriends();
+    }, 5000); // har 5 sec me refresh
 
-  return () => clearInterval(interval);
-}, []);
+    return () => clearInterval(interval);
+  }, []);
 
   const hc = async (friendID) => {
     setcurentchat(friendID)
@@ -67,7 +67,7 @@ useEffect(() => {
       <ul>
         {friends.length === 0 && <li>No friends yet</li>}
         {friends.map((friend, index) => (
-          <li style={{backgroundColor:fromuserID === friend ? "#027b65":"#014d3f"}} key={friend} onClick={() => hc(friend)}>
+          <li style={{ backgroundColor: fromuserID === friend ? "#027b65" : "#014d3f" }} key={friend} onClick={() => hc(friend)}>
             <img
               id='profileimg'
               src="/pexels-caleb-lamb-597215774-35911819.jpg"

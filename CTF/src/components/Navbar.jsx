@@ -14,11 +14,10 @@ const Navbar = ({ setauth, setshm, setprofile }) => {
     console.log("click working");
     console.log(res.data);
   }
-
-  const handleclickprofile = async (e) => {
-    e.preventDefault();
-    setprofile(true);
-  }
+const handleclickprofile = (e) => {
+  e.preventDefault();
+  setprofile(prev => !prev);
+};
   
   return (
     <div id='Navbarbox'>

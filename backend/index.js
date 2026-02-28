@@ -98,9 +98,9 @@ const userSchma = new mongoose.Schema({
 
   ],
   profileImage: {
-  type: String,
-  default: ""
-}
+    type: String,
+    default: ""
+  }
 
 })
 
@@ -157,8 +157,7 @@ app.post('/login', async (req, res) => {
     if (pass === checkuserexist.pass) {
       const sessionuser = await User.findOne({ email: email }); //checking whether email alredy exist
       req.session.user = {
-        userid: sessionuser.userid,
-        email: sessionuser.email,
+        id: sessionuser._id,
         chatto: ""
       };
       // localStorage.setItem("isLoggedInCTF", `${sessionuser.userid}`);
@@ -172,18 +171,8 @@ app.post('/login', async (req, res) => {
   }
 })
 
-app.get("/remainlogin", (req, res) => {
-  if (req.session.user) {
-    return res.json({
-      auth: true,
-      user: req.session.user
-    });
-  }
 
-  return res.status(401).json({
-    auth: false
-  });
-});
+
 
 // app.post("/uploadProfile", upload.single("image"), async (req, res) => {
 //   try {
@@ -196,7 +185,7 @@ app.get("/remainlogin", (req, res) => {
 
 //         // MongoDB me URL save karo
 //         await User.updateOne(
-//           { email: req.session.user.email },
+//           { _id: req.session.user.id },
 //           { profileImage: result.secure_url }
 //         );
 
@@ -212,6 +201,110 @@ app.get("/remainlogin", (req, res) => {
 //   }
 // });
 
+app.post("/uploadprofimg", upload.single("image"), async (req, res) => {
+  try {
+    if (req.session.user) {
+      if (req.file) {
+        const result = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "profile_images" },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            }
+          );
+          stream.end(req.file.buffer);
+        });
+        await User.updateOne(
+          { _id: req.session.user.id },
+          { profileImage: result.secure_url }
+        );
+        res.json({ imageUrl: result.secure_url });
+      }
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Upload failed" });
+  }
+});
+
+app.get('/userdata', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: "Not logged in" });
+  }
+
+  const userdata = await User.findOne({ _id: req.session.user.id });
+
+  res.json({
+    username: userdata.username,
+    userid: userdata.userid,
+    useremail: userdata.email,
+    profileImage: userdata.profileImage   // 👈 IMPORTANT
+  });
+});
+
+app.post('/changeusername', async (req, res) => {
+  if (req.session.user) {
+    await User.updateOne(
+      { _id: req.session.user.id },
+      { $set: { username: req.body.username } }
+    );
+  }
+})
+
+app.post('/changeuserid', async (req, res) => {
+  if (req.session.user) {
+    const userinfo = await User.findOne({ userid: req.body.userid })
+    if (!userinfo && req.session.user.id.userid !== req.body.userid) {
+      await User.updateOne(
+        { _id: req.session.user.id },
+        { $set: { userid: req.body.userid } }
+
+      );
+    }
+    else if (userinfo && req.session.user.id.userid !== req.body.userid) {
+      console.log('This id is already in use');
+
+      return res.json({
+        'usermsgid': 'This id is already in use'
+      })
+    }
+  }
+})
+
+app.post('/changeuseremail', async (req, res) => {
+  if (req.session.user) {
+
+    const userinfo = await User.findOne({ email: req.body.useremail })
+    const userinfoinsession = await User.findOne({ _id: req.session.user.id })
+
+    if (!userinfo && userinfoinsession.email !== req.body.useremail) {
+      await User.updateOne(
+        { _id: req.session.user.id },
+        { $set: { email: req.body.useremail } }
+      );
+    }
+    else if (userinfo && req.session.user.id !== req.body.userid) {
+      return res.json({
+        'usermsgid': 'This email is already in use'
+      })
+    }
+  }
+})
+
+app.get("/remainlogin", (req, res) => {
+  if (req.session.user) {
+    return res.json({
+      auth: true,
+      user: req.session.user
+    });
+  }
+  console.log(req.session.user);
+
+  return res.status(401).json({
+    auth: false
+  });
+});
+
 app.post('/finduser', async (req, res) => {
   const userid = req.body.userid;
   console.log(req.session.user, "s");
@@ -219,12 +312,12 @@ app.post('/finduser', async (req, res) => {
   if (req.session.user) {
     console.log(req.session.user, "s");
     const userexist = await User.findOne({ userid: userid }); //checking whether userid alredy exist
-    const ssuserid = await User.findOne({ userid: req.session.user.userid });
+    const ssuserid = await User.findOne({ _id: req.session.user.id });
     const checkalraedy = ssuserid.friend.some(function (a) {
       return a === userid
     })
-    if (req.session.user.userid === userid) {
-      console.log(req.session.user.userid, userid, "id's");
+    if (ssuserid.userid === userid) {
+      console.log(ssuserid.userid, userid, "id's");
       return res.json({
         "auth": false,
         "shm": true,
@@ -284,8 +377,9 @@ app.get('/myfriends', async (req, res) => {
     });
   }
   const user = await User.findOne(
-    { email: req.session.user.email }
+    { _id: req.session.user.id }
   );
+  
   return res.json({
     "auth": false,
     "shm": true,
@@ -294,31 +388,28 @@ app.get('/myfriends', async (req, res) => {
 });
 
 
-
 app.post('/addfriend', async (req, res) => {
   console.log("api reaching");
   const sessiondata = req.session.user
   if (req.session.user) {
     console.log("session is active", sessiondata);
     const userid = req.body.userid;
-    const p1 = await User.findOne({ email: req.session.user.email });
+    const p1 = await User.findOne({ _id: req.session.user.id });
     const userexist = await User.findOne({ userid: userid });
     if (userexist) {
       console.log(p1.friend, "p1");
-      console.log(req.session.user.userid);
-      const alreadyfriendp1 = userexist.friend.some(f => f === req.session.user.userid)
+      console.log(req.session.user.id);
+      const alreadyfriendp1 = userexist.friend.some(f => f === p1.userid)
       console.log(alreadyfriendp1);
       await User.updateOne(
-        { email: req.session.user.email },
+        { _id: req.session.user.id },
         { $push: { friend: userid } }
       );
-      // const exists = friend.some(friend => friend.userid === req.session.user.userid); 
-      // if (!exists) {
       console.log(userexist.friend, "p2");
       if (!alreadyfriendp1) {
         await User.updateOne(
           { email: userexist.email },
-          { $push: { friend: req.session.user.userid } }
+          { $push: { friend: p1.userid } }
         );
       } else {
         console.log("already a friend");
@@ -343,7 +434,7 @@ app.post('/removefriend', async (req, res) => {
     const userexist = await User.findOne({ userid: userid });
     if (userexist) {
       await User.updateOne(
-        { email: req.session.user.email },
+        { _id: req.session.user.id },
         { $pull: { friend: userid } }
       );
       return res.json({
@@ -367,7 +458,7 @@ app.get('/logout', (req, res) => {
 app.get('/userid', (req, res) => {
   if (req.session.user) {
     res.json({
-      userid: req.session.user.userid
+      userid: req.session.user.id.userid
     })
   }
 });
@@ -375,10 +466,10 @@ app.get('/userid', (req, res) => {
 // msgdata
 app.get('/msgdata', async (req, res) => {
   if (req.session.user) {
-    const checkforuser = await User.findOne({ userid: req.session.user.userid });
-    const messages = checkforuser.msg; 
+    const checkforuser = await User.findOne({ userid: req.session.user.id.userid });
+    const messages = checkforuser.msg;
     console.log("msgdata");
-    return res.json({messages})
+    return res.json({ messages })
   }
 });
 
@@ -390,35 +481,35 @@ io.on("connection", (socket) => {
     console.log("connection established");
   });
 
-socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {
-  const targetSocket = onlineUsers[chatto];
-  console.log("yes emitting", chatto, fromUserID, message);
+  socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {
+    const targetSocket = onlineUsers[chatto];
+    console.log("yes emitting", chatto, fromUserID, message);
 
-  if (targetSocket) {
-    // If the user is online, send real-time message
-    io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
-  } else {
-    // If the user is offline, save the message in DB
-    const checkForUser = await User.findOne({ userid: chatto });
-    if (checkForUser) {
-      await User.updateOne(
-        { userid: chatto },   // receiver
-        { $push: { msg: { from: fromUserID, message } } } // use fromUserID from client
-      );
+    if (targetSocket) {
+      // If the user is online, send real-time message
+      io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
     } else {
-      console.log("Receiver not found in DB:", chatto);
+      // If the user is offline, save the message in DB
+      const checkForUser = await User.findOne({ userid: chatto });
+      if (checkForUser) {
+        await User.updateOne(
+          { userid: chatto },   // receiver
+          { $push: { msg: { from: fromUserID, message } } } // use fromUserID from client
+        );
+      } else {
+        console.log("Receiver not found in DB:", chatto);
+      }
     }
-  }
-});
+  });
 
-socket.on("disconnect", () => {
-  for (let userID in onlineUsers) {
-    if (onlineUsers[userID] === socket.id) {
-      delete onlineUsers[userID];
+  socket.on("disconnect", () => {
+    for (let userID in onlineUsers) {
+      if (onlineUsers[userID] === socket.id) {
+        delete onlineUsers[userID];
+      }
     }
-  }
-  console.log("User disconnected. Online users:", onlineUsers);
-});
+    console.log("User disconnected. Online users:", onlineUsers);
+  });
 });
 
 app.get("*", (req, res) => {

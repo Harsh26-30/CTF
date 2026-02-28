@@ -19,7 +19,7 @@ const Header = ({ setauth, setshm,setprofile }) => { // ✅ props pass from pare
             <SearchBox />
             <Navbar setprofile={setprofile} setauth={setauth} setshm={setshm} /> 
             <More onClick={changemsgNavbar} />
-            {forNavbarM && <NavbarM setprofile={setprofile} setauth={setauth} setshm={setshm} />} 
+            {forNavbarM && <NavbarM  setprofile={setprofile} setauth={setauth} setshm={setshm} />} 
         </div>
     )
 }

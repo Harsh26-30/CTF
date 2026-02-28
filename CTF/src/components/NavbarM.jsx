@@ -16,11 +16,10 @@ const NavbarM = ({ setauth, setshm, setprofile }) => {
 
   }
 
-  const handleclickprofile = async (e) => {
-    e.preventDefault();
-    setprofile(true);
-  }
-
+const handleclickprofile = (e) => {
+  e.preventDefault();
+  setprofile(prev => !prev);
+};
   return (
 
     <div id='NavbarMbox'>

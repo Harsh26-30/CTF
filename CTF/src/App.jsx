@@ -19,25 +19,25 @@ function App() {
 
   // App.jsx ya kisi component me
   useEffect(() => {
-  axios.get(`${API}/remainlogin`, {
-    withCredentials: true
-  })
-  .then(res => {
-    if (res.data.auth) {
-      setauth(false);
-      setshm(true);
-    }
-  })
-  .catch(() => {
-    setauth(true);
-    setshm(false);
-  });
-}, []);
+    axios.get(`${API}/remainlogin`, {
+      withCredentials: true
+    })
+      .then(res => {
+        if (res.data.auth) {
+          setauth(false);
+          setshm(true);
+        }
+      })
+      .catch(() => {
+        setauth(true);
+        setshm(false);
+      });
+  }, []);
 
   return (
     <>
       {shm && <Header setprofile={setprofile} setshm={setshm} setauth={setauth} msgforheaderofNavbarM={msgforheaderofNavbarM} />}
-      {shm && <Main profile={profile} setshm={setshm} setauth={setauth} />}
+      {shm && <Main setprofile={setprofile} profile={profile} setshm={setshm} setauth={setauth} />}
       {auth && <Authenticationpage setshm={setshm} setauth={setauth} />}
     </>
   )

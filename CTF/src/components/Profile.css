@@ -1,0 +1,63 @@
+:root {
+    --bg-main: #0B1F1A;
+    --bg-card: #163832;
+    --primary: #1B9C85;
+    --primary-hover: #22BFA3;
+    --gold: #D4AF37;
+    --gold-hover: #E6C35C;
+    --text-main: #E8F6F3;
+    --text-secondary: #B7DAD3;
+}
+
+#box1 {
+    background-color: rgba(0, 0, 0, 0.702);
+    width: 100vw;
+    height: 80vh;
+    z-index: 112;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#profilebox {
+    left: 36vw;
+    width: 25vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 20px;
+    border: 3px solid var(--text-secondary);
+    box-shadow: 0px 0px 30px 2px white;
+    background-color: var(--bg-card);
+}
+
+#profilebox img {
+    width: 7vw;
+    border-radius: 100px;
+    border: 2px solid white;
+}
+
+#profilebox input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    outline: none;
+
+}
+
+.userimg {
+    height: 40%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.userinfo {
+    height: 8vh;
+}
