@@ -341,7 +341,6 @@ app.get('/myfriends', async (req, res) => {
   const user = await User.findById(req.session.user.id)
     .populate("friend", "username userid profileImage"); // populate only needed fields
 
-  console.log("User friends:", user.friend); // populated array
 
   return res.json({
     auth: false,
