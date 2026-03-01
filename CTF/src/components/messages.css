@@ -1,33 +1,38 @@
 :root {
-  --bg-main: #0B1F1A;
-  --bg-card: #163832;
-  --primary: #1B9C85;
-  --primary-hover: #22BFA3;
-  --gold: #D4AF37;
-  --gold-hover: #E6C35C;
-  --text-main: #E8F6F3;
-  --text-secondary: #B7DAD3;
+    --bg-main: #0B1F1A;
+    --bg-card: #163832;
+    --primary: #1B9C85;
+    --primary-hover: #22BFA3;
+    --gold: #D4AF37;
+    --gold-hover: #E6C35C;
+    --text-main: #E8F6F3;
+    --text-secondary: #B7DAD3;
 }
 
-#msgbox{
+#msgbox {
+    width: 100vw;
+    height: 60vh;
     overflow: scroll;
     scrollbar-width: none;
 }
 
-#messagebox{
-    height: 20px;
+#msgbox #messagebox {
+    height: 7vh;
+    overflow: scroll;
+    scrollbar-width: none;
 }
 
 @media (min-width:1212px) {
-#messagebox {
-    width: 128%;
-}
+    #messagebox {
+        width: 98%;
+    }
 }
 
-#messagebox p{
-    background-image: linear-gradient(145deg,var(--bg-card),var(--gold));
+#messagebox p {
+    background-image: linear-gradient(145deg, var(--bg-card), var(--gold));
     border-radius: 20px;
     display: inline-flex;
-    padding: 5px;
+    margin: 2px;
+    padding: 10px;
     font-family: sans-serif;
 }
