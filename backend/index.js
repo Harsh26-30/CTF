@@ -464,14 +464,14 @@ app.get('/logout', (req, res) => {
   });
 });
 
-// app.get('/userid', async (req, res) => {
-//   if (req.session.user) {
-//     const userid = await User.findOne({ _id: req.session.user.id });
-//     res.json({
-//       userid: userid.userid
-//     })
-//   }
-// });
+app.get('/userid', async (req, res) => {
+  if (req.session.user) {
+    const user = await User.findOne({ _id: req.session.user.id });
+    res.json({
+      userid: user.userid
+    })
+  }
+});
 
 // msgdata
 app.get('/msgdata', async (req, res) => {
