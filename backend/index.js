@@ -339,12 +339,16 @@ app.post('/finduser', async (req, res) => {
 });
 
 app.get('/myfriends', async (req, res) => {
-  if (!req.session.user)
-    return res.json({ auth: true, msg: "Please login first" });
+  if (!req.session.user || !req.session.user.id) {
+    return res.status(401).json({ auth: true, msg: "Please login first" });
+  }
 
   const user = await User.findById(req.session.user.id)
     .populate("friend", "username userid profileImage"); // populate only needed fields
 
+  if (!user) {
+    return res.status(404).json({ auth: false, msg: "User not found" });
+  }
 
   return res.json({
     auth: false,
@@ -432,14 +436,14 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.get('/userid', async (req, res) => {
-  if (req.session.user) {
-    const userid = await User.findOne({ _id: req.session.user.id });
-    res.json({
-      userid: userid.userid
-    })
-  }
-});
+// app.get('/userid', async (req, res) => {
+//   if (req.session.user) {
+//     const userid = await User.findOne({ _id: req.session.user.id });
+//     res.json({
+//       userid: userid.userid
+//     })
+//   }
+// });
 
 // msgdata
 app.get('/msgdata', async (req, res) => {
