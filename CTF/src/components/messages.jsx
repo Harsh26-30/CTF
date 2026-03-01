@@ -9,6 +9,7 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
   const [chattinguser, setChattingUser] = useState("");
   const [listval, setlistval] = useState();
 
+  const msgboxRef = useRef(null);
 
   // Register + receive
   useEffect(() => {
@@ -54,10 +55,16 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
     setChattingUser(chatto);
   }, [chatto]);
 
+  useEffect(() => {
+  if (msgboxRef.current) {
+    msgboxRef.current.scrollTop = msgboxRef.current.scrollHeight;
+  }
+}, [messages]);
+
 
 
   return (
-    <div id='msgbox'>
+    <div id='msgbox' ref={msgboxRef}>
       {messages
         .filter(msg => chattinguser && (
           (msg.from === userID && msg.to === chattinguser) ||
