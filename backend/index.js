@@ -95,7 +95,10 @@ const userSchma = new mongoose.Schema({
     required: true
   },
   friend: [
-
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
   ],
   profileImage: {
     type: String,
@@ -174,32 +177,7 @@ app.post('/login', async (req, res) => {
 
 
 
-// app.post("/uploadProfile", upload.single("image"), async (req, res) => {
-//   try {
-//     const file = req.file;
 
-//     const result = await cloudinary.uploader.upload_stream(
-//       { folder: "profile_images" },
-//       async (error, result) => {
-//         if (error) return res.status(500).json({ error });
-
-//         // MongoDB me URL save karo
-//         await User.updateOne(
-//           { _id: req.session.user.id },
-//           { profileImage: result.secure_url }
-//         );
-
-//         res.json({ imageUrl: result.secure_url });
-//       }
-//     );
-
-//     const stream = result;
-//     stream.end(file.buffer);
-
-//   } catch (err) {
-//     res.status(500).json({ error: "Upload failed" });
-//   }
-// });
 
 app.post("/uploadprofimg", upload.single("image"), async (req, res) => {
   try {
@@ -307,142 +285,138 @@ app.get("/remainlogin", (req, res) => {
 
 app.post('/finduser', async (req, res) => {
   const userid = req.body.userid;
-  console.log(req.session.user, "s");
 
-  if (req.session.user) {
-    console.log(req.session.user, "s");
-    const userexist = await User.findOne({ userid: userid }); //checking whether userid alredy exist
-    const ssuserid = await User.findOne({ _id: req.session.user.id });
-    const checkalraedy = ssuserid.friend.some(function (a) {
-      return a === userid
-    })
-    if (ssuserid.userid === userid) {
-      console.log(ssuserid.userid, userid, "id's");
+  if (!req.session.user) {
+    return res.json({ isuser: false, add: false, remove: false });
+  }
+
+  const userexist = await User.findOne({ userid: userid });
+  const ssuserid = await User.findById(req.session.user.id);
+
+  // Ensure friend array exists
+  const friendsArray = ssuserid.friend || [];
+
+  const checkalready = friendsArray.some(f => f.toString() === (userexist?._id.toString()));
+
+  if (ssuserid.userid === userid) {
+    return res.json({
+      auth: false,
+      shm: true,
+      isuser: true,
+      userprofilename: userexist.username,
+      add: false,
+      remove: false
+    });
+  }
+
+  if (userexist) {
+    if (!checkalready) {
       return res.json({
-        "auth": false,
-        "shm": true,
-        "isuser": true,
-        "userprofilename": userexist.username,
-        "add": false,
-        "remove": false
-      })
-    }
-
-    if (userexist) {
-      // if(userid===)
-      if (!checkalraedy) {
-        return res.json({
-          "auth": false,
-          "shm": true,
-          "isuser": true,
-          // "userprofile":userexist.username,
-          "userprofilename": userexist.username,
-          "add": true,
-          "remove": false
-        })
-      }
-      else {
-        return res.json({
-          "auth": false,
-          "shm": true,
-          "isuser": true,
-          // "userprofile":userexist.username,
-          "userprofilename": userexist.username,
-          "add": false,
-          "remove": true
-        })
-      }
-
+        auth: false,
+        shm: true,
+        isuser: true,
+        userprofilename: userexist.username,
+        add: true,
+        remove: false
+      });
     } else {
       return res.json({
-        isuser: false,
+        auth: false,
+        shm: true,
+        isuser: true,
+        userprofilename: userexist.username,
         add: false,
-        remove: false
+        remove: true
       });
     }
   } else {
-    return res.json({
-      isuser: false,
-      add: false,
-      remove: false,
-    });
+    return res.json({ isuser: false, add: false, remove: false });
   }
-})
+});
 
 app.get('/myfriends', async (req, res) => {
-  if (!req.session.user) {
-    return res.json({
-      "auth": true,
-      msg: "Please login first"
-    });
-  }
-  const user = await User.findOne(
-    { _id: req.session.user.id }
-  );
-  
+  if (!req.session.user)
+    return res.json({ auth: true, msg: "Please login first" });
+
+  const user = await User.findById(req.session.user.id)
+    .populate("friend", "username userid profileImage"); // populate only needed fields
+
+  console.log("User friends:", user.friend); // populated array
+
   return res.json({
-    "auth": false,
-    "shm": true,
-    "friends": user.friend
+    auth: false,
+    shm: true,
+    friends: user.friend || []
   });
 });
 
 
 app.post('/addfriend', async (req, res) => {
   console.log("api reaching");
-  const sessiondata = req.session.user
-  if (req.session.user) {
-    console.log("session is active", sessiondata);
-    const userid = req.body.userid;
-    const p1 = await User.findOne({ _id: req.session.user.id });
-    const userexist = await User.findOne({ userid: userid });
-    if (userexist) {
-      console.log(p1.friend, "p1");
-      console.log(req.session.user.id);
-      const alreadyfriendp1 = userexist.friend.some(f => f === p1.userid)
-      console.log(alreadyfriendp1);
-      await User.updateOne(
-        { _id: req.session.user.id },
-        { $push: { friend: userid } }
-      );
-      console.log(userexist.friend, "p2");
-      if (!alreadyfriendp1) {
-        await User.updateOne(
-          { email: userexist.email },
-          { $push: { friend: p1.userid } }
-        );
-      } else {
-        console.log("already a friend");
 
-      }
+  if (!req.session.user) return res.status(401).json({ error: "Not logged in" });
 
-      // }
-      return res.json({
-        "add": false,
-        "remove": true
-      })
-    }
+  const userid = req.body.userid;
+  const p1 = await User.findById(req.session.user.id);
+  const userexist = await User.findOne({ userid: userid });
+
+  if (!userexist) return res.status(404).json({ error: "User not found" });
+
+  // Ensure friend arrays exist
+  const p1Friends = p1.friend || [];
+  const userexistFriends = userexist.friend || [];
+
+  // Check if already friends
+  const alreadyfriendp1 = userexistFriends.some(f => f.toString() === p1._id.toString());
+
+  // Add friend to p1
+  if (!p1Friends.some(f => f.toString() === userexist._id.toString())) {
+    await User.updateOne({ _id: p1._id }, { $push: { friend: userexist._id } });
   }
+
+  // Add p1 to userexist if not already there
+  if (!alreadyfriendp1) {
+    await User.updateOne({ _id: userexist._id }, { $push: { friend: p1._id } });
+  }
+
+  return res.json({ add: false, remove: true });
 });
 
 app.post('/removefriend', async (req, res) => {
   console.log("api reaching");
-  const sessiondata = req.session.user
-  if (req.session.user) {
-    console.log("session is active", sessiondata);
-    const userid = req.body.userid;
-    const userexist = await User.findOne({ userid: userid });
-    if (userexist) {
-      await User.updateOne(
-        { _id: req.session.user.id },
-        { $pull: { friend: userid } }
-      );
-      return res.json({
-        "add": true,
-        "remove": false
-      })
-    }
+
+  if (!req.session.user) {
+    return res.status(401).json({ error: "Not logged in" });
   }
+
+  console.log("session is active", req.session.user);
+
+  const userid = req.body.userid;
+  const userexist = await User.findOne({ userid: userid });
+
+  if (!userexist) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  // Remove userexist from current user's friends
+  await User.updateOne(
+    { _id: req.session.user.id },
+    { $pull: { friend: userexist._id } }
+  );
+
+  // Optionally remove current user from userexist's friends
+  const currentUser = await User.findById(req.session.user.id);
+  if ((userexist.friend || []).some(f => f.toString() === currentUser._id.toString())) {
+    await User.updateOne(
+      { _id: userexist._id },
+      { $pull: { friend: currentUser._id } }
+    );
+  }
+
+  return res.json({
+    add: true,
+    remove: false
+  });
 });
 
 app.get('/logout', (req, res) => {

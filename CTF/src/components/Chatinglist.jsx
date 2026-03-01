@@ -6,81 +6,85 @@ const API = import.meta.env.VITE_API_URL;
 
 const Chatinglist = ({ onclickli }) => {
   const [friends, setFriends] = useState([]);
-  const [havemsg, sethavemsg] = useState();
-  const [fromuserID, setfromuserID] = useState();
-  const [curentchat, setcurentchat] = useState();
-  const [onclickforchat, setonclickforchat] = useState();
+  const [curentchat, setCurentchat] = useState();
+  const [onclickforchat, setonclickforchat] = useState(false);
+  const [unread, setUnread] = useState({});
 
   const baseURL = `${API}`;
-  const fetchFriends = async () => {
-    try {
-      const res = await axios.get(`${baseURL}/myfriends`, {
-        withCredentials: true
-      });
-
-      if (res.data.auth) {
-        console.log("User not logged in");
-        return;
-      }
-
-      setFriends(res.data.friends || []);
-    } catch (err) {
-      console.error("Error fetching friends:", err.response?.data || err.message);
-    }
-  };
-
 
   useEffect(() => {
-    fetchFriends();
-    const interval = setInterval(() => {
-      fetchFriends();
-    }, 5000); // har 5 sec me refresh
+  const fetchFriends = async () => {
+    try {
+      const res = await axios.get(`${baseURL}/myfriends`, { withCredentials: true });
+      console.log("Friend API response:", res.data);
+      setFriends(res.data.friends || []);
+    } catch (err) {
+      console.error(err);
+    }
+    
+  };
 
-    return () => clearInterval(interval);
+  setInterval(() => {
+    fetchFriends();
+  }, 5000);
+
+  
+}, []);
+
+  useEffect(() => {
+    const handleReceive = (data) => {
+      if (data) {
+        setUnread(prev => ({ ...prev, [data.fromUserID]: true }));
+      }
+    };
+    socket.on("receiveMessage", handleReceive);
+    return () => socket.off("receiveMessage", handleReceive);
   }, []);
 
-  const hc = async (friendID) => {
-    setcurentchat(friendID)
-    onclickli(friendID)
-    sethavemsg("")
-    setfromuserID(false)
-    setonclickforchat(true)
-  };
-  const ha = async (friendID) => {
-    setonclickforchat(false)
+  const hc = (friendID) => {
+    setCurentchat(friendID);
+    onclickli(friendID);
+    setUnread(prev => ({ ...prev, [friendID]: false }));
+    setonclickforchat(true);
   };
 
-  const handleReceive = (data) => {
-    // console.log("Message received:", data);
-    // setMessages(prev => [...prev, { from: data.fromUserID, text: data.message }]);
-
-    if (data) {
-      sethavemsg("msg")
-      setfromuserID(data.fromUserID)
-    }
+  const ha = () => {
+    setonclickforchat(false);
   };
-
-  socket.on("receiveMessage", handleReceive);
 
   return (
-    <div style={{ left: onclickforchat ? "-248px" : "0", backgroundColor: onclickforchat ? "noColor" : "#163832", height: onclickforchat ? "0" : "86%" }} id='Chatinglistbox'>
+    <div
+      style={{
+        left: onclickforchat ? "-248px" : "0",
+        backgroundColor: onclickforchat ? "noColor" : "#163832",
+        height: onclickforchat ? "0" : "86%"
+      }}
+      id='Chatinglistbox'
+    >
       <ul>
         {friends.length === 0 && <li>No friends yet</li>}
-        {friends.map((friend, index) => (
-          <li style={{ backgroundColor: fromuserID === friend ? "#027b65" : "#014d3f" }} key={friend} onClick={() => hc(friend)}>
+        {friends.map((friend) => (
+          <li
+            key={friend._id}
+            style={{ backgroundColor: unread[friend.userid] ? "#027b65" : "#014d3f" }}
+            onClick={() => hc(friend.userid)}
+          >
             <img
-              id='profileimg'
-              src="/pexels-caleb-lamb-597215774-35911819.jpg"
+              id="profileimg"
+              src={friend.profileImage || "/default.jpg"}
               alt="friendimg"
             />
-            <span>{friend}</span>
-            {fromuserID === friend && <p>{havemsg}</p>}
+            <span>{friend.username}</span>
+            {unread[friend.userid] && <p>New</p>}
           </li>
         ))}
       </ul>
-      {onclickforchat && <button onClick={ha}><img src="\arrow_back_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="<--" /></button>}
+      {onclickforchat && (
+        <button onClick={ha}>
+          <img src="\arrow_back_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="<--" />
+        </button>
+      )}
     </div>
-    // {onclickforchat && <button>ad</button>}
   );
 };
 
