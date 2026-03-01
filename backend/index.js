@@ -206,17 +206,21 @@ app.post("/uploadprofimg", upload.single("image"), async (req, res) => {
 });
 
 app.get('/userdata', async (req, res) => {
-  if (!req.session.user) {
+  if (!req.session.user || !req.session.user.id) {
     return res.status(401).json({ error: "Not logged in" });
   }
 
-  const userdata = await User.findOne({ _id: req.session.user.id });
+  const userdata = await User.findById(req.session.user.id);
+  
+  if (!userdata) {
+    return res.status(404).json({ error: "User not found in DB" });
+  }
 
   res.json({
     username: userdata.username,
     userid: userdata.userid,
     useremail: userdata.email,
-    profileImage: userdata.profileImage   // 👈 IMPORTANT
+    profileImage: userdata.profileImage
   });
 });
 
