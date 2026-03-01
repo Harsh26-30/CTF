@@ -372,29 +372,42 @@ app.get('/myfriends', async (req, res) => {
 app.post('/addfriend', async (req, res) => {
   console.log("api reaching");
 
-  if (!req.session.user) return res.status(401).json({ error: "Not logged in" });
-
-  const userid = req.body.userid;
-  const p1 = await User.findById(req.session.user.id);
-  const userexist = await User.findOne({ userid: userid });
-
-  if (!userexist) return res.status(404).json({ error: "User not found" });
-
-  // Ensure friend arrays exist
-  const p1Friends = p1.friend || [];
-  const userexistFriends = userexist.friend || [];
-
-  // Check if already friends
-  const alreadyfriendp1 = userexistFriends.some(f => f.toString() === p1._id.toString());
-
-  // Add friend to p1
-  if (!p1Friends.some(f => f.toString() === userexist._id.toString())) {
-    await User.updateOne({ _id: p1._id }, { $push: { friend: userexist._id } });
+  // 1️⃣ Session check
+  if (!req.session.user || !req.session.user.id) {
+    return res.status(401).json({ error: "Not logged in" });
   }
 
-  // Add p1 to userexist if not already there
-  if (!alreadyfriendp1) {
-    await User.updateOne({ _id: userexist._id }, { $push: { friend: p1._id } });
+  const userid = req.body.userid;
+
+  // 2️⃣ Get current user
+  const currentUser = await User.findById(req.session.user.id);
+  if (!currentUser) return res.status(404).json({ error: "Current user not found" });
+
+  // 3️⃣ Get target user
+  const targetUser = await User.findOne({ userid });
+  if (!targetUser) return res.status(404).json({ error: "Target user not found" });
+
+  // 4️⃣ Ensure friend arrays
+  currentUser.friend = currentUser.friend || [];
+  targetUser.friend = targetUser.friend || [];
+
+  // 5️⃣ Check duplicates
+  const currentHasTarget = currentUser.friend.some(f => f.toString() === targetUser._id.toString());
+  const targetHasCurrent = targetUser.friend.some(f => f.toString() === currentUser._id.toString());
+
+  // 6️⃣ Update friend lists
+  if (!currentHasTarget) {
+    await User.updateOne(
+      { _id: currentUser._id },
+      { $push: { friend: targetUser._id } }
+    );
+  }
+
+  if (!targetHasCurrent) {
+    await User.updateOne(
+      { _id: targetUser._id },
+      { $push: { friend: currentUser._id } }
+    );
   }
 
   return res.json({ add: false, remove: true });
