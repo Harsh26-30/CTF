@@ -428,10 +428,11 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.get('/userid', (req, res) => {
+app.get('/userid', async (req, res) => {
   if (req.session.user) {
+    const userid = await User.findOne({ _id: req.session.user.id });
     res.json({
-      userid: req.session.user.id.userid
+      userid: userid.userid
     })
   }
 });
@@ -439,7 +440,8 @@ app.get('/userid', (req, res) => {
 // msgdata
 app.get('/msgdata', async (req, res) => {
   if (req.session.user) {
-    const checkforuser = await User.findOne({ userid: req.session.user.id.userid });
+    const userid = await User.findOne({ _id: req.session.user.id });
+    const checkforuser = await User.findOne({ userid: userid.userid });
     const messages = checkforuser.msg;
     console.log("msgdata");
     return res.json({ messages })
