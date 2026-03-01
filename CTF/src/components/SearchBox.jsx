@@ -9,6 +9,7 @@ const SearchBox = () => {
   const [isuser, setisuser] = useState()
   const [userprofile, setuserprofile] = useState("/pexels-caleb-lamb-597215774-35911819.jpg")
   const [userprofilename, setuserprofilename] = useState()
+  const [userprofileimg, setuserprofileimg] = useState()
   const [add, setadd] = useState(false)
   const [remove, setremove] = useState(false)
   const [searchresult, setsearchresult] = useState(false)
@@ -24,6 +25,7 @@ const SearchBox = () => {
 
       setisuser(res.data.isuser);
       setuserprofilename(res.data.userprofilename);
+      setuserprofileimg(res.data.userprofileimg);
       setadd(res.data.add);
       setremove(res.data.remove);
 
@@ -61,14 +63,18 @@ const SearchBox = () => {
     setsearchresult(false)
   }
 
+  const hcul = async (params) => {
+        setsearchresult(false)
+  }
+
   return (
     <div id='Searchboxmain'>
       <form id='searchuserform' onSubmit={hs}>
         <input type="text" name='usersearch' onChange={(e) => setuserid(e.target.value)} />
         <button type='submit'>Search</button>
       </form>
-     {isuser && searchresult && <ul>
-        <li id='li1'> <img src="/pexels-caleb-lamb-597215774-35911819.jpg" alt="img" /></li>
+     {isuser && searchresult && <ul onClick={hcul}>
+        <li id='li1'> <img src={userprofileimg ? userprofileimg : "/pexels-caleb-lamb-597215774-35911819.jpg"} alt="img" /></li>
         <li>{userprofilename}</li>
         <li>
           {add === false && remove === true && (

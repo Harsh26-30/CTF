@@ -23,7 +23,7 @@ const handleclickprofile = (e) => {
     <div id='Navbarbox'>
       <ul>
         <li onClick={handleclickprofile}>Profile</li>
-        <li>
+        <li id='logout'> 
           <button onClick={hs}>Logout</button>
         </li>
       </ul>

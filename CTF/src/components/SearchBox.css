@@ -1,12 +1,12 @@
 :root {
-  --bg-main: #0B1F1A;
-  --bg-card: #163832;
-  --primary: #1B9C85;
-  --primary-hover: #22BFA3;
-  --gold: #D4AF37;
-  --gold-hover: #E6C35C;
-  --text-main: #E8F6F3;
-  --text-secondary: #B7DAD3;
+    --bg-main: #0B1F1A;
+    --bg-card: #163832;
+    --primary: #1B9C85;
+    --primary-hover: #22BFA3;
+    --gold: #D4AF37;
+    --gold-hover: #E6C35C;
+    --text-main: #E8F6F3;
+    --text-secondary: #B7DAD3;
 }
 
 #Searchboxmain {
@@ -38,12 +38,14 @@
 }
 
 ul {
-    width: 50vw;
+    width: 100vw;
     display: flex;
-    z-index: 150;
-    background-color: var(--bg-card);
+    justify-content: space-evenly;
+    background-color: var(--primary);
     border: 1px solid white;
 }
+
+
 
 ul li {
     width: 30%;
@@ -51,13 +53,21 @@ ul li {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
 
-ul li img {
-    width: 40%;
-    height: 100%;
+ul #li1{
+    background-color: red;
+    width: 40px;
+    height: 40px;
     border-radius: 30px;
+    overflow: hidden;
+    border: 2px solid var(--gold);
+}
+
+ul #li1 img {
+    width: 100%;
+    height: 100%;
 }
 
 #searchuserform button {
@@ -104,3 +114,8 @@ li button {
     }
 }
 
+@media (max-width:708px) {
+    #Searchboxmain ul {
+        width: 66vw;
+    }
+}

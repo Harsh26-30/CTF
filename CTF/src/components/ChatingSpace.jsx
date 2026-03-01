@@ -6,12 +6,12 @@ import Messages from './messages'
 import { useState } from 'react'
 import { on } from 'ws'
 
-const ChatingSpace = ({ chatto,setauth, setshm }) => {
+const ChatingSpace = ({chattoprof, chatto,setauth, setshm }) => {
   const[sendmsg,setsendmsg]=useState()
   
   return (
     <div id='ChatingSpacebox'>
-      <CSHeader chatto={chatto} setshm={setshm} setauth={setauth} />
+      <CSHeader chattoprof={chattoprof} chatto={chatto} setshm={setshm} setauth={setauth} />
       <Messages   sendmsg={sendmsg} chatto={chatto}/>
       <Typemsg onSend={setsendmsg} chatto={chatto} />
     </div>

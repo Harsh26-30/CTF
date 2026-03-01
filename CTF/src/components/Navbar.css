@@ -1,3 +1,14 @@
+:root {
+    --bg-main: #0B1F1A;
+    --bg-card: #163832;
+    --primary: #1B9C85;
+    --primary-hover: #22BFA3;
+    --gold: #D4AF37;
+    --gold-hover: #E6C35C;
+    --text-main: #E8F6F3;
+    --text-secondary: #B7DAD3;
+}
+
 #Navbarbox {
     width: 27vw;
     height: 5vh;
@@ -25,8 +36,27 @@
     padding: 5px;
 }
 
+#Navbarbox ul #logout{
+    background-color: red;
+    border-radius: 50px;
+
+}
+
+#Navbarbox ul #logout button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+#Navbarbox ul #logout:hover {
+    border-radius: 50px;
+    background-color: var(--bg-card);
+    /* transform: scale(1.5); */
+}
+
 #Navbarbox ul li:hover {
     border-radius: 50px;
+    background-color: var(--bg-card);
     /* transform: scale(1.5); */
 }
 

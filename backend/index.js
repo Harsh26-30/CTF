@@ -286,6 +286,7 @@ app.get("/remainlogin", (req, res) => {
     auth: false
   });
 });
+
 app.post('/finduser', async (req, res) => {
   const userid = req.body.userid;
 
@@ -317,6 +318,7 @@ app.post('/finduser', async (req, res) => {
       shm: true,
       isuser: true,
       userprofilename: currentUser.username,
+      userprofileimg:currentUser.profileImage,
       add: false,
       remove: false
     });
@@ -330,6 +332,7 @@ app.post('/finduser', async (req, res) => {
         shm: true,
         isuser: true,
         userprofilename: searchedUser.username,
+        userprofileimg:searchedUser.profileImage,
         add: true,
         remove: false
       });
@@ -339,6 +342,7 @@ app.post('/finduser', async (req, res) => {
         shm: true,
         isuser: true,
         userprofilename: searchedUser.username,
+        userprofileimg:searchedUser.profileImage,
         add: false,
         remove: true
       });

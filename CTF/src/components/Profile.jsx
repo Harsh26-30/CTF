@@ -41,7 +41,7 @@ const Profile = ({ setupoadimg,setprofile }) => {
   };
 
     return (
-        <div id='box1' onClick={handleclickprofilebk}>
+        <div id='box1' onDoubleClick={handleclickprofilebk}>
             <div id='profilebox' >
                 <div className='userimg' onClick={handleclickprofile}>
                     {/* <img src="\pexels-caleb-lamb-597215774-35911819.jpg" alt="userdata" /> */}

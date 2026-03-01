@@ -4,7 +4,7 @@ import axios from 'axios';
 import { socket } from "../socket";
 const API = import.meta.env.VITE_API_URL;
 
-const Chatinglist = ({ onclickli }) => {
+const Chatinglist = ({ onclickli, onclickli2 }) => {
   const [friends, setFriends] = useState([]);
   const [curentchat, setCurentchat] = useState();
   const [onclickforchat, setonclickforchat] = useState(false);
@@ -13,23 +13,23 @@ const Chatinglist = ({ onclickli }) => {
   const baseURL = `${API}`;
 
   useEffect(() => {
-  const fetchFriends = async () => {
-    try {
-      const res = await axios.get(`${baseURL}/myfriends`, { withCredentials: true });
-      console.log("Friend API response:", res.data);
-      setFriends(res.data.friends || []);
-    } catch (err) {
-      console.error(err);
-    }
-    
-  };
+    const fetchFriends = async () => {
+      try {
+        const res = await axios.get(`${baseURL}/myfriends`, { withCredentials: true });
+        console.log("Friend API response:", res.data);
+        setFriends(res.data.friends || []);
+      } catch (err) {
+        console.error(err);
+      }
 
-  setInterval(() => {
-    fetchFriends();
-  }, 5000);
+    };
 
-  
-}, []);
+    setInterval(() => {
+      fetchFriends();
+    }, 5000);
+
+
+  }, []);
 
   useEffect(() => {
     const handleReceive = (data) => {
@@ -42,9 +42,10 @@ const Chatinglist = ({ onclickli }) => {
   }, []);
 
   const hc = (friendID) => {
-    setCurentchat(friendID);
-    onclickli(friendID);
-    setUnread(prev => ({ ...prev, [friendID]: false }));
+    setCurentchat(friendID.userid);
+    onclickli(friendID.userid);
+    onclickli2(friendID.profileImage);
+    setUnread(prev => ({ ...prev, [friendID.userid]: false }));
     setonclickforchat(true);
   };
 
@@ -67,13 +68,15 @@ const Chatinglist = ({ onclickli }) => {
           <li
             key={friend._id}
             style={{ backgroundColor: unread[friend.userid] ? "#027b65" : "#014d3f" }}
-            onClick={() => hc(friend.userid)}
+            onClick={() => hc(friend)}
           >
-            <img
-              id="profileimg"
-              src={friend.profileImage || "/default.jpg"}
-              alt="friendimg"
-            />
+            <div id='imgboxlist'>
+              <img
+                id="profileimg"
+                src={friend.profileImage || "/default.jpg"}
+                alt="friendimg"
+              />
+            </div>
             <span>{friend.username}</span>
             {unread[friend.userid] && <p>New</p>}
           </li>
