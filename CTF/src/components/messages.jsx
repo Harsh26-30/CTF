@@ -57,12 +57,12 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
 
 
   return (
-    <div>
+    <div id='msgbox'>
       {messages
-        .filter(msg =>
+        .filter(msg => chattinguser && (
           (msg.from === userID && msg.to === chattinguser) ||
           (msg.from === chattinguser && msg.to === userID)
-        )
+        ))
         .map((msg, index) => (
           <div id='messagebox'
             key={index}

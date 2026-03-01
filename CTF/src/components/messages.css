@@ -9,6 +9,11 @@
   --text-secondary: #B7DAD3;
 }
 
+#msgbox{
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
 #messagebox{
     height: 20px;
 }
@@ -16,7 +21,6 @@
 @media (min-width:1212px) {
 #messagebox {
     width: 128%;
- 
 }
 }
 
