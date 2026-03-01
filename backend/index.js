@@ -286,40 +286,50 @@ app.get("/remainlogin", (req, res) => {
     auth: false
   });
 });
-
 app.post('/finduser', async (req, res) => {
   const userid = req.body.userid;
 
-  if (!req.session.user) {
+  if (!req.session.user || !req.session.user.id) {
     return res.json({ isuser: false, add: false, remove: false });
   }
 
-  const userexist = await User.findOne({ userid: userid });
-  const ssuserid = await User.findById(req.session.user.id);
+  // Current logged-in user
+  const currentUser = await User.findById(req.session.user.id);
+  if (!currentUser) {
+    return res.json({ isuser: false, add: false, remove: false });
+  }
 
-  // Ensure friend array exists
-  const friendsArray = ssuserid.friend || [];
+  // User we are searching
+  const searchedUser = await User.findOne({ userid: userid });
 
-  const checkalready = friendsArray.some(f => f.toString() === (userexist?._id.toString()));
+  // Current user's friends (ensure array)
+  const friendsArray = currentUser.friend || [];
 
-  if (ssuserid.userid === userid) {
+  // Check if searched user is already a friend
+  const isAlreadyFriend = searchedUser
+    ? friendsArray.some(f => f.toString() === searchedUser._id.toString())
+    : false;
+
+  // If user searches for themselves
+  if (currentUser.userid === userid) {
     return res.json({
       auth: false,
       shm: true,
       isuser: true,
-      userprofilename: userexist.username,
+      userprofilename: currentUser.username,
       add: false,
       remove: false
     });
   }
 
-  if (userexist) {
-    if (!checkalready) {
+  // If user exists
+  if (searchedUser) {
+    if (!isAlreadyFriend) {
       return res.json({
         auth: false,
         shm: true,
         isuser: true,
-        userprofilename: userexist.username,
+        userprofilename: searchedUser.username,
         add: true,
         remove: false
       });
@@ -328,14 +338,15 @@ app.post('/finduser', async (req, res) => {
         auth: false,
         shm: true,
         isuser: true,
-        userprofilename: userexist.username,
+        userprofilename: searchedUser.username,
         add: false,
         remove: true
       });
     }
-  } else {
-    return res.json({ isuser: false, add: false, remove: false });
-  }
+  } 
+
+  // User does not exist
+  return res.json({ isuser: false, add: false, remove: false });
 });
 
 app.get('/myfriends', async (req, res) => {
