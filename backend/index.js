@@ -479,7 +479,7 @@ app.get('/msgdata', async (req, res) => {
     const userid = await User.findOne({ _id: req.session.user.id });
     const checkforuser = await User.findOne({ userid: userid.userid });
     const messages = checkforuser.msg;
-    console.log("msgdata");
+    // console.log("msgdata");
     return res.json({ messages })
   }
 });
@@ -489,12 +489,12 @@ const onlineUsers = {};
 io.on("connection", (socket) => {
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;
-    console.log("connection established");
+    // console.log("connection established");
   });
 
   socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {
     const targetSocket = onlineUsers[chatto];
-    console.log("yes emitting", chatto, fromUserID, message);
+    // console.log("yes emitting", chatto, fromUserID, message);
 
     if (targetSocket) {
       // If the user is online, send real-time message
@@ -508,7 +508,7 @@ io.on("connection", (socket) => {
           { $push: { msg: { from: fromUserID, message } } } // use fromUserID from client
         );
       } else {
-        console.log("Receiver not found in DB:", chatto);
+        // console.log("Receiver not found in DB:", chatto);
       }
     }
   });

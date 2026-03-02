@@ -73,7 +73,7 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
             <div id='imgboxlist'>
               <img
                 id="profileimg"
-                src={friend.profileImage || "/default.jpg"}
+                src={friend.profileImage || "/pexels-caleb-lamb-597215774-35911819.jpg"}
                 alt="friendimg"
               />
             </div>
