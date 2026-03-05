@@ -45,6 +45,11 @@ button {
     align-items: center;
     position: relative;
 }
+#profname #userinfo p{
+    font-size: 10px;
+    color: #E6C35C;
+    text-transform: capitalize;
+}
 
 #CSHeaderbox #profname #imgbox img {
     width: 100%;

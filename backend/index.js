@@ -486,6 +486,17 @@ app.get('/msgdata', async (req, res) => {
 
 const onlineUsers = {};
 
+app.get('/userstatus',async(req,res)=>{
+  if(req.session.user){
+    const checkuserstatus = req.body.checkuser
+    // if(checkuserstatus in  onlineUsers){
+      res.json({
+        userstatusis : checkuserstatus in  onlineUsers
+      })
+    // }
+  }
+})
+
 io.on("connection", (socket) => {
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;

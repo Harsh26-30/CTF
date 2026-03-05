@@ -1,4 +1,4 @@
-import React, { useRef,useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { socket } from "../socket";
 import axios from "axios"
 import './messages.css'
@@ -56,10 +56,10 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
   }, [chatto]);
 
   useEffect(() => {
-  if (msgboxRef.current) {
-    msgboxRef.current.scrollTop = msgboxRef.current.scrollHeight;
-  }
-}, [messages]);
+    if (msgboxRef.current) {
+      msgboxRef.current.scrollTop = msgboxRef.current.scrollHeight;
+    }
+  }, [messages]);
 
 
 
@@ -75,10 +75,13 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
             key={index}
             style={{
               textAlign: msg.from === userID ? "right" : "left",
-              margin: "5px"
+              margin: "5px",
             }}
           >
-            <p>{msg.text}</p>
+            <p style={{
+              backgroundImage: msg.from === userID ? "linear-gradient(to bottom, var(--bg-card), var(--primary))" : "linear-gradient(to bottom,var(--primary), var(--bg-card))"
+              // backgroundColor:msg.from === userID? "green":"blue"
+            }}>{msg.text}</p>
             {/* <b>{msg.from === userID ? "You" : msg.from}:</b> {msg.text} */}
           </div>
         ))

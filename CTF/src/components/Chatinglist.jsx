@@ -56,9 +56,10 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
   return (
     <div
       style={{
-        left: onclickforchat ? "-248px" : "0",
+        left: onclickforchat ? "-251px" : "0",
         backgroundColor: onclickforchat ? "noColor" : "#163832",
-        height: onclickforchat ? "0" : "86%"
+        height: onclickforchat ? "0" : "86%",
+        top :onclickforchat ? "130px":"0"
       }}
       id='Chatinglistbox'
     >
