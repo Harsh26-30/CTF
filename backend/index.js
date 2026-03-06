@@ -489,13 +489,16 @@ const onlineUsers = {};
 app.get('/userstatus',async(req,res)=>{
   if(req.session.user){
     const checkuserstatus = req.body.checkuser
-    // if(checkuserstatus in  onlineUsers){
-    console.log( checkuserstatus in onlineUsers);
-    
-      res.json({
-        userstatusis : checkuserstatus in onlineUsers
+    if(checkuserstatus in  onlineUsers){
+    // console.log( checkuserstatus in onlineUsers);
+    return res.json({
+        userstatusis : "Online"
       })
-    // }
+    }else{
+        return res.json({
+        userstatusis : "Offline"
+      })
+    }
   }
 })
 

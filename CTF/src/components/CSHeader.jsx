@@ -11,7 +11,7 @@ const CSHeader = ({ chattoprof, chatto, setauth, setshm }) => {
             try {
                 const res = await axios.get(`${API}/userstatus`, { chatto }, { withCredentials: true });
                 setuserStatus(res.data.userstatusis)
-
+                console.log(res.data.userstatusis,"r");
             } catch (err) {
                 console.error(err);
             }
