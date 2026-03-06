@@ -17,6 +17,7 @@ const CSHeader = ({ chattoprof, chatto, setauth, setshm }) => {
             }
 
         };
+        fetchFriends();
 
     }, [chatto]);
 
