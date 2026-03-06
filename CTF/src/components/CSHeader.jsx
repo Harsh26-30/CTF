@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import './CSHeader.css'
 import axios from 'axios'
 const API = import.meta.env.VITE_API_URL;
@@ -10,7 +10,7 @@ const CSHeader = ({ chattoprof, chatto, setauth, setshm }) => {
         const fetchFriends = async () => {
             try {
                 const res = await axios.get(`${API}/userstatus`, { chatto }, { withCredentials: true });
-                setuserstatus(res.data.userstatusis)
+                setuserStatus(res.data.userstatusis)
 
             } catch (err) {
                 console.error(err);
