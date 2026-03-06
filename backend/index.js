@@ -487,13 +487,12 @@ app.get('/msgdata', async (req, res) => {
 const onlineUsers = {};
 const onlineUsersarray = [];
 
-
 app.post('/userstatus', async (req, res) => {
   if (req.session.user) {
 
     const checkuserstatus = req.query.checkuser;
 
-    if (checkuserstatus in onlineUsersarray) {
+    if (onlineUsersarray.includes(checkuserstatus)) {
       res.json({
         userstatusis: "Online"
       });
@@ -502,6 +501,7 @@ app.post('/userstatus', async (req, res) => {
         userstatusis: "Offline"
       });
     }
+
   }
 });
 
