@@ -211,7 +211,7 @@ app.get('/userdata', async (req, res) => {
   }
 
   const userdata = await User.findById(req.session.user.id);
-  
+
   if (!userdata) {
     return res.status(404).json({ error: "User not found in DB" });
   }
@@ -318,7 +318,7 @@ app.post('/finduser', async (req, res) => {
       shm: true,
       isuser: true,
       userprofilename: currentUser.username,
-      userprofileimg:currentUser.profileImage,
+      userprofileimg: currentUser.profileImage,
       add: false,
       remove: false
     });
@@ -332,7 +332,7 @@ app.post('/finduser', async (req, res) => {
         shm: true,
         isuser: true,
         userprofilename: searchedUser.username,
-        userprofileimg:searchedUser.profileImage,
+        userprofileimg: searchedUser.profileImage,
         add: true,
         remove: false
       });
@@ -342,12 +342,12 @@ app.post('/finduser', async (req, res) => {
         shm: true,
         isuser: true,
         userprofilename: searchedUser.username,
-        userprofileimg:searchedUser.profileImage,
+        userprofileimg: searchedUser.profileImage,
         add: false,
         remove: true
       });
     }
-  } 
+  }
 
   // User does not exist
   return res.json({ isuser: false, add: false, remove: false });
@@ -486,17 +486,17 @@ app.get('/msgdata', async (req, res) => {
 
 const onlineUsers = {};
 
-app.get('/userstatus',async(req,res)=>{
-  if(req.session.user){
+app.get('/userstatus', async (req, res) => {
+  if (req.session.user) {
     const checkuserstatus = req.body.checkuser
-    if(checkuserstatus in  onlineUsers){
-    // console.log( checkuserstatus in onlineUsers);
-    return res.json({
-        userstatusis : "Online"
+    if (checkuserstatus in onlineUsers) {
+      console.log( checkuserstatus in onlineUsers);
+      res.json({
+        userstatusis: "Online"
       })
-    }else{
-        return res.json({
-        userstatusis : "Offline"
+    } else {
+      res.json({
+        userstatusis: "Offline"
       })
     }
   }

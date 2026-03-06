@@ -17,9 +17,10 @@ const CSHeader = ({ chattoprof, chatto, setauth, setshm }) => {
             }
 
         };
-        fetchFriends();
-
-    }, [chatto]);
+        setInterval(() => {
+            fetchFriends();
+        }, 5000);
+    });
 
     return (
         <div id='CSHeaderbox'>
