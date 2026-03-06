@@ -486,22 +486,25 @@ app.get('/msgdata', async (req, res) => {
 
 const onlineUsers = {};
 
-app.get('/userstatus', async (req, res) => {
+app.post('/userstatus', async (req, res) => {
   if (req.session.user) {
-    const checkuserstatus = req.body.checkuser
-    console.log( checkuserstatus in onlineUsers);
+
+    const checkuserstatus = req.body.chatto;
+
+    console.log("Checking:", checkuserstatus);
+    console.log("Online users:", onlineUsers);
+
     if (checkuserstatus in onlineUsers) {
-      console.log( checkuserstatus in onlineUsers);
       res.json({
         userstatusis: "Online"
-      })
+      });
     } else {
       res.json({
         userstatusis: "Offline"
-      })
+      });
     }
   }
-})
+});
 
 io.on("connection", (socket) => {
   socket.on("registerUser", (userID) => {

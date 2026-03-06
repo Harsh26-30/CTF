@@ -9,7 +9,7 @@ const CSHeader = ({ chattoprof, chatto, setauth, setshm }) => {
     useEffect(() => {
         const fetchFriends = async () => {
             try {
-                const res = await axios.get(`${API}/userstatus`, { chatto }, { withCredentials: true });
+                const res = await axios.post(`${API}/userstatus`, { chatto }, { withCredentials: true });
                 setuserStatus(res.data.userstatusis)
                 console.log(res.data.userstatusis,"r");
             } catch (err) {
