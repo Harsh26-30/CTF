@@ -490,8 +490,10 @@ app.get('/userstatus',async(req,res)=>{
   if(req.session.user){
     const checkuserstatus = req.body.checkuser
     // if(checkuserstatus in  onlineUsers){
+    console.log( checkuserstatus in onlineUsers);
+    
       res.json({
-        userstatusis : checkuserstatus in  onlineUsers
+        userstatusis : checkuserstatus in onlineUsers
       })
     // }
   }
