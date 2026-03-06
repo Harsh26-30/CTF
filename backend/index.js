@@ -485,16 +485,15 @@ app.get('/msgdata', async (req, res) => {
 });
 
 const onlineUsers = {};
+const onlineUsersarray = [];
+
 
 app.post('/userstatus', async (req, res) => {
   if (req.session.user) {
 
-    const checkuserstatus = req.body.chatto;
+    const checkuserstatus = req.query.checkuser;
 
-    console.log("Checking:", checkuserstatus);
-    console.log("Online users:", onlineUsers);
-
-    if (checkuserstatus in onlineUsers) {
+    if (checkuserstatus in onlineUsersarray) {
       res.json({
         userstatusis: "Online"
       });
@@ -509,8 +508,7 @@ app.post('/userstatus', async (req, res) => {
 io.on("connection", (socket) => {
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;
-    console.log(onlineUsers);
-    
+    onlineUsersarray.push(userID);
   });
 
   socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {
