@@ -489,6 +489,7 @@ const onlineUsers = {};
 app.get('/userstatus', async (req, res) => {
   if (req.session.user) {
     const checkuserstatus = req.body.checkuser
+    console.log( checkuserstatus in onlineUsers);
     if (checkuserstatus in onlineUsers) {
       console.log( checkuserstatus in onlineUsers);
       res.json({
@@ -505,18 +506,16 @@ app.get('/userstatus', async (req, res) => {
 io.on("connection", (socket) => {
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;
-    // console.log("connection established");
+    console.log(onlineUsers);
+    
   });
 
   socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {
     const targetSocket = onlineUsers[chatto];
-    // console.log("yes emitting", chatto, fromUserID, message);
 
     if (targetSocket) {
-      // If the user is online, send real-time message
       io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
     } else {
-      // If the user is offline, save the message in DB
       const checkForUser = await User.findOne({ userid: chatto });
       if (checkForUser) {
         await User.updateOne(
