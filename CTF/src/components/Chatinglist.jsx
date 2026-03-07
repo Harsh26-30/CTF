@@ -80,7 +80,6 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
             </div>
             <div>
               <span>{friend.username}</span>
-              <p style={{content:friend.userStatus===true?"Online":"Offline"}}></p>
             </div>
              
           </li>

@@ -24,9 +24,9 @@ const CSHeader = ({ chattoprof, chatto, setauth, setshm }) => {
 
         fetchFriends();
 
-        const interval = setInterval(fetchFriends, 5000);
+        // const interval = setInterval(fetchFriends, 5000);
 
-        return () => clearInterval(interval);
+        // return () => clearInterval(interval);
 
     }, [chatto]);
 
