@@ -107,7 +107,7 @@ const userSchma = new mongoose.Schema({
   },
   userStatus: {
     type: Boolean,
-    default:false
+    default: false
   }
 
 })
@@ -173,10 +173,10 @@ app.post('/login', async (req, res) => {
         chatto: ""
       };
       // localStorage.setItem("isLoggedInCTF", `${sessionuser.userid}`);
-      User.updateOne(
+      await User.updateOne(
         { email: sessionuser.email },
         { $set: { userStatus: true } }
-      )
+      );
       return res.json({
         "auth": false,
         "shm": true
