@@ -15,20 +15,20 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
   useEffect(() => {
     const fetchFriends = async () => {
       try {
-        const res = await axios.get(`${baseURL}/myfriends`, { withCredentials: true });
-        console.log("Friend API response:", res.data);
+        const res = await axios.get(`${baseURL}/myfriends`, {
+          withCredentials: true
+        }); console.log("Friend API response:", res.data);
         setFriends(res.data.friends || []);
       } catch (err) {
         console.error(err);
       }
-
     };
 
-    setInterval(() => {
-      fetchFriends();
-    }, 5000);
+    fetchFriends(); // run immediately
 
+    const interval = setInterval(fetchFriends, 5000);
 
+    return () => clearInterval(interval); // cleanup
   }, []);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
         left: onclickforchat ? "-251px" : "0",
         backgroundColor: onclickforchat ? "noColor" : "#163832",
         height: onclickforchat ? "0" : "86%",
-        top :onclickforchat ? "130px":"0"
+        top: onclickforchat ? "130px" : "0"
       }}
       id='Chatinglistbox'
     >

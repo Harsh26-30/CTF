@@ -4,23 +4,31 @@ import axios from 'axios'
 const API = import.meta.env.VITE_API_URL;
 
 const CSHeader = ({ chattoprof, chatto, setauth, setshm }) => {
-    const [userstatus, setuserStatus] = useState();
-
+    const [userstatus, setuserStatus] = useState("Offline");
     useEffect(() => {
+
         const fetchFriends = async () => {
             try {
-                const res = await axios.post(`${API}/userstatus`, { chatto }, { withCredentials: true });
-                setuserStatus(res.data.userstatusis)
-                console.log(res.data.userstatusis,"r");
+                const res = await axios.post(
+                    `${API}/userStatus`,
+                    { chatto },
+                    { withCredentials: true }
+                );
+
+                setuserStatus(res.data.userStatus);
+
             } catch (err) {
                 console.error(err);
             }
-
         };
-        setInterval(() => {
-            fetchFriends();
-        }, 5000);
-    });
+
+        fetchFriends();
+
+        const interval = setInterval(fetchFriends, 5000);
+
+        return () => clearInterval(interval);
+
+    }, [chatto]);
 
     return (
         <div id='CSHeaderbox'>

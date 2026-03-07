@@ -43,6 +43,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const path = require("path");
+const { type } = require('os');
 app.use(express.static(path.join(__dirname, "../CTF/dist")));
 
 app.set("trust proxy", 1);
@@ -103,6 +104,10 @@ const userSchma = new mongoose.Schema({
   profileImage: {
     type: String,
     default: ""
+  },
+  userStatus: {
+    type: Boolean,
+    default:false
   }
 
 })
@@ -144,6 +149,10 @@ app.post('/signup', async (req, res) => {
       chatto: ""
 
     };
+    User.updateOne(
+      { email: sessionuser.email },
+      { $set: { userStatus: true } }
+    )
     return res.json({
       "auth": false,
       "shm": true
@@ -164,6 +173,10 @@ app.post('/login', async (req, res) => {
         chatto: ""
       };
       // localStorage.setItem("isLoggedInCTF", `${sessionuser.userid}`);
+      User.updateOne(
+        { email: sessionuser.email },
+        { $set: { userStatus: true } }
+      )
       return res.json({
         "auth": false,
         "shm": true
@@ -244,8 +257,6 @@ app.post('/changeuserid', async (req, res) => {
       );
     }
     else if (userinfo && req.session.user.id.userid !== req.body.userid) {
-      console.log('This id is already in use');
-
       return res.json({
         'usermsgid': 'This id is already in use'
       })
@@ -280,8 +291,6 @@ app.get("/remainlogin", (req, res) => {
       user: req.session.user
     });
   }
-  console.log(req.session.user);
-
   return res.status(401).json({
     auth: false
   });
@@ -374,8 +383,6 @@ app.get('/myfriends', async (req, res) => {
 
 
 app.post('/addfriend', async (req, res) => {
-  console.log("api reaching");
-
   // 1️⃣ Session check
   if (!req.session.user || !req.session.user.id) {
     return res.status(401).json({ error: "Not logged in" });
@@ -424,8 +431,6 @@ app.post('/removefriend', async (req, res) => {
     return res.status(401).json({ error: "Not logged in" });
   }
 
-  console.log("session is active", req.session.user);
-
   const userid = req.body.userid;
   const userexist = await User.findOne({ userid: userid });
 
@@ -454,14 +459,50 @@ app.post('/removefriend', async (req, res) => {
   });
 });
 
-app.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.clearCookie("connect.sid");
-    return res.json({
-      auth: true, // user is now logged out
-      shm: false
+app.post('/userStatus', async (req, res) => {
+
+  if (!req.session.user) {
+    return res.status(401).json({ error: "Not logged in" });
+  }
+
+  const { chatto } = req.body;
+
+  const userexist = await User.findOne({ userid: chatto });
+
+  if (!userexist) {
+    return res.json({ userStatus: "Offline" });
+  }
+
+  if (userexist.userStatus === true) {
+    return res.json({ userStatus: "Online" });
+  }
+
+  return res.json({ userStatus: "Offline" });
+});
+
+app.get('/logout', async (req, res) => {
+  try {
+
+    if (req.session.user) {
+      await User.updateOne(
+        { _id: req.session.user.id },
+        { $set: { userStatus: false } }
+      );
+    }
+
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid");
+
+      return res.json({
+        auth: true,
+        shm: false
+      });
     });
-  });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Logout failed" });
+  }
 });
 
 app.get('/userid', async (req, res) => {
@@ -485,30 +526,11 @@ app.get('/msgdata', async (req, res) => {
 });
 
 const onlineUsers = {};
-const onlineUsersarray = [];
 
-app.post('/userstatus', async (req, res) => {
-  if (req.session.user) {
-
-    const checkuserstatus = req.query.checkuser;
-
-    if (onlineUsersarray.includes(checkuserstatus)) {
-      res.json({
-        userstatusis: "Online"
-      });
-    } else {
-      res.json({
-        userstatusis: "Offline"
-      });
-    }
-
-  }
-});
 
 io.on("connection", (socket) => {
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;
-    onlineUsersarray.push(userID);
   });
 
   socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {

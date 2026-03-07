@@ -7,7 +7,7 @@ const API = import.meta.env.VITE_API_URL;
 const NavbarM = ({ setauth, setshm, setprofile }) => {
   const hs = async (e) => {
     e.preventDefault();
-    const res = await axios.get(`${API}/logout`, {
+    const res = await axios.get(`${API}/logout`, {},{
       withCredentials: true
     }); setauth(res.data.auth);
     setshm(res.data.shm);
