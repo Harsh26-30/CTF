@@ -38,7 +38,7 @@ const CSHeader = ({ chattoprof, chatto, setauth, setshm }) => {
                 </div>
                 <div id='userinfo'>
                     <h2>{chatto}</h2>
-                    <p>{userstatus}</p>
+                    <p style={{color:userstatus!=="Offline"?"green":"red"}}>{userstatus}</p>
                 </div>
             </div>
         </div>

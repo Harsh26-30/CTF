@@ -78,8 +78,11 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
                 alt="friendimg"
               />
             </div>
-            <span>{friend.username}</span>
-            {unread[friend.userid] && <p>New</p>}
+            <div>
+              <span>{friend.username}</span>
+              <p style={{content:friend.userStatus===true?"Online":"Offline"}}></p>
+            </div>
+             
           </li>
         ))}
       </ul>

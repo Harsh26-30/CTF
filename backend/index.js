@@ -149,7 +149,7 @@ app.post('/signup', async (req, res) => {
       chatto: ""
 
     };
-    User.updateOne(
+    await User.updateOne(
       { email: sessionuser.email },
       { $set: { userStatus: true } }
     )
@@ -186,10 +186,6 @@ app.post('/login', async (req, res) => {
     console.log('user not exist');
   }
 })
-
-
-
-
 
 
 app.post("/uploadprofimg", upload.single("image"), async (req, res) => {
@@ -367,8 +363,8 @@ app.get('/myfriends', async (req, res) => {
     return res.status(401).json({ auth: true, msg: "Please login first" });
   }
 
-  const user = await User.findById(req.session.user.id)
-    .populate("friend", "username userid profileImage"); // populate only needed fields
+ const user = await User.findById(req.session.user.id)
+  .populate("friend", "username userid profileImage userStatus"); // populate only needed fields
 
   if (!user) {
     return res.status(404).json({ auth: false, msg: "User not found" });
@@ -540,14 +536,14 @@ io.on("connection", (socket) => {
       io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
     } else {
       const checkForUser = await User.findOne({ userid: chatto });
-      if (checkForUser) {
-        await User.updateOne(
-          { userid: chatto },   // receiver
-          { $push: { msg: { from: fromUserID, message } } } // use fromUserID from client
-        );
-      } else {
-        // console.log("Receiver not found in DB:", chatto);
-      }
+      // if (checkForUser) {
+      //   await User.updateOne(
+      //     { userid: chatto },   // receiver
+      //     { $push: { msg: { from: fromUserID, message } } } // use fromUserID from client
+      //   );
+      // } else {
+      //   // console.log("Receiver not found in DB:", chatto);
+      // }
     }
   });
 
