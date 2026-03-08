@@ -4,6 +4,7 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo").default;
 const http = require("http");
+const Message = require("./messagesave")
 const { Server } = require("socket.io");
 const cloudinary = require("cloudinary").v2;
 require('dotenv').config();
@@ -363,8 +364,8 @@ app.get('/myfriends', async (req, res) => {
     return res.status(401).json({ auth: true, msg: "Please login first" });
   }
 
- const user = await User.findById(req.session.user.id)
-  .populate("friend", "username userid profileImage userStatus"); // populate only needed fields
+  const user = await User.findById(req.session.user.id)
+    .populate("friend", "username userid profileImage userStatus"); // populate only needed fields
 
   if (!user) {
     return res.status(404).json({ auth: false, msg: "User not found" });
@@ -523,28 +524,33 @@ app.get('/msgdata', async (req, res) => {
 
 const onlineUsers = {};
 
-
 io.on("connection", (socket) => {
+
   socket.on("registerUser", (userID) => {
     onlineUsers[userID] = socket.id;
   });
 
   socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {
+
+    // 1️⃣ Save message in DB
+    const newMessage = new Message({
+      from: fromUserID,
+      to: chatto,
+      message
+    });
+
+    await newMessage.save();
+
+    // 2️⃣ Check if receiver online
     const targetSocket = onlineUsers[chatto];
 
     if (targetSocket) {
-      io.to(targetSocket).emit("receiveMessage", { fromUserID, message });
-    } else {
-      const checkForUser = await User.findOne({ userid: chatto });
-      // if (checkForUser) {
-      //   await User.updateOne(
-      //     { userid: chatto },   // receiver
-      //     { $push: { msg: { from: fromUserID, message } } } // use fromUserID from client
-      //   );
-      // } else {
-      //   // console.log("Receiver not found in DB:", chatto);
-      // }
+      io.to(targetSocket).emit("receiveMessage", {
+        fromUserID,
+        message
+      });
     }
+
   });
 
   socket.on("disconnect", () => {
@@ -553,8 +559,22 @@ io.on("connection", (socket) => {
         delete onlineUsers[userID];
       }
     }
-    console.log("User disconnected. Online users:", onlineUsers);
   });
+
+});
+
+app.get("/messages/:user1/:user2", async (req, res) => {
+
+  const { user1, user2 } = req.params;
+
+  const chat = await Message.find({
+    $or: [
+      { from: user1, to: user2 },
+      { from: user2, to: user1 }
+    ]
+  }).sort({ time: 1 });
+
+  res.json(chat);
 });
 
 app.get("*", (req, res) => {

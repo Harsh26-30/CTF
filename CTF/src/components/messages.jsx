@@ -23,7 +23,7 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
         ...prev,
         {
           from: data.fromUserID,
-          to: data.toUserID,
+          to: userID,   // receiver is current user
           text: data.message
         }
       ]);
@@ -35,6 +35,27 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
       socket.off("receiveMessage", handleReceive);
     };
   }, [userID]);
+
+  // Load old chat messages when chat user changes
+  useEffect(() => {
+    const loadMessages = async () => {
+      if (!userID || !chatto) return;
+      try {
+        const res = await axios.get(`${API}/messages/${userID}/${chatto}`);
+        const oldMessages = res.data.map(msg => ({
+          from: msg.from,
+          to: msg.to,
+          text: msg.message
+        }));
+
+        setMessages(oldMessages);
+      } catch (err) {
+        console.log("Error loading messages", err);
+      }
+    };
+
+    loadMessages();
+  }, [chatto, userID]);
 
   // 👇 Jab sendmsg aaye, usko bhi add karo
   useEffect(() => {
@@ -48,6 +69,7 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
         }
       ]);
     }
+
   }, [sendmsg]);
 
   // Update chatting user
@@ -71,7 +93,7 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
           (msg.from === chattinguser && msg.to === userID)
         ))
         .map((msg, index) => (
-          <div id='messagebox'
+          <div className='messagebox'
             key={index}
             style={{
               textAlign: msg.from === userID ? "right" : "left",

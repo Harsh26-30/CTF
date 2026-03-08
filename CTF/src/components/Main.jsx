@@ -1,17 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Main.css'
 import Chatinglist from './Chatinglist'
 import ChatingSpace from './ChatingSpace'
 import Profile from './Profile'
 import ProfImgUpload from './profimgupload'
+import axios from "axios"
 
-const Main = ({ setshm, setauth, profile,setprofile }) => {
+const API = import.meta.env.VITE_API_URL;
+
+const Main = ({ setshm, setauth, profile, setprofile }) => {
 
   const [chatto, setchatto] = useState("")
   const [chattoprof, setchattoprof] = useState("")
-
+  const [userID, setUserID] = useState("")
   const [upoadimg, setupoadimg] = useState("")
 
+  useEffect(() => {
+    axios.get(`${API}/userid`, { withCredentials: true })
+      .then(res => {
+        console.log("Logged in user:", res.data.userid);
+        setUserID(res.data.userid);
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   return (
     <div id='Mainbox'>
@@ -21,7 +32,8 @@ const Main = ({ setshm, setauth, profile,setprofile }) => {
       {profile && <Profile setprofile={setprofile} setupoadimg={setupoadimg} />}
       {upoadimg && <ProfImgUpload setupoadimg={setupoadimg} />}
       <ChatingSpace
-      chattoprof={chattoprof}
+        userID={userID}
+        chattoprof={chattoprof}
         chatto={chatto}
         setauth={setauth}
         setshm={setshm}
