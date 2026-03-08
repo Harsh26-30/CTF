@@ -53,6 +53,10 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
     setonclickforchat(false);
   };
 
+  const hccl = async () => {
+      setonclickforchat(true);
+  }
+
   return (
     <div
       style={{
@@ -61,6 +65,9 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
         height: onclickforchat ? "0" : "86%",
         top: onclickforchat ? "130px" : "0"
       }}
+
+      onDoubleClick={hccl}
+
       id='Chatinglistbox'
     >
       <ul>

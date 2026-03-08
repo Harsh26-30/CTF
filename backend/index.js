@@ -173,7 +173,6 @@ app.post('/login', async (req, res) => {
         id: sessionuser._id,
         chatto: ""
       };
-      // localStorage.setItem("isLoggedInCTF", `${sessionuser.userid}`);
       await User.updateOne(
         { email: sessionuser.email },
         { $set: { userStatus: true } }
@@ -282,12 +281,14 @@ app.post('/changeuseremail', async (req, res) => {
 })
 
 app.get("/remainlogin", (req, res) => {
+
   if (req.session.user) {
     return res.json({
       auth: true,
       user: req.session.user
     });
   }
+
   return res.status(401).json({
     auth: false
   });
@@ -510,6 +511,19 @@ app.get('/userid', async (req, res) => {
     })
   }
 });
+
+app.delete("/clearchat", async (req,res)=>{
+   const {user1,user2} = req.body
+
+   await Message.deleteMany({
+      $or:[
+        {sender:user1,receiver:user2},
+        {sender:user2,receiver:user1}
+      ]
+   })
+
+   res.json({message:"Chat deleted"})
+})
 
 // msgdata
 app.get('/msgdata', async (req, res) => {

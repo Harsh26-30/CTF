@@ -11,7 +11,7 @@ const ChatingSpace = ({chattoprof, chatto,setauth, setshm, userID }) => {
   
   return (
     <div id='ChatingSpacebox'>
-      <CSHeader chattoprof={chattoprof} chatto={chatto} setshm={setshm} setauth={setauth} />
+      <CSHeader userID={userID} chattoprof={chattoprof} chatto={chatto} setshm={setshm} setauth={setauth} />
       <Messages userID={userID}  sendmsg={sendmsg} chatto={chatto}/>
       <Typemsg onSend={setsendmsg} chatto={chatto} />
     </div>

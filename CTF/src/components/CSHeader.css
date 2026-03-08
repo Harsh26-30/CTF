@@ -18,6 +18,20 @@
     justify-content: flex-start;
     padding-left:50px;
     margin-top: 30px;
+    padding-right: 20px;
+    gap: 150px;
+}
+
+#CSHeaderbox ul{
+    background-color: transparent;
+    border: none;
+    width: 20px;
+    right: 10px;
+    /* position: fixed; */
+}
+
+#CSHeaderbox ul li{
+    cursor: pointer;
 }
 
 #imgbox{
@@ -57,6 +71,19 @@ button {
     
 }
 
+@media (min-width:200px) {
+
+    #CSHeaderbox{
+        gap: 10vw;
+    }
+}
+
+@media (min-width:400px) {
+    #CSHeaderbox{
+        gap: 15vw;
+    }
+}
+
 @media (min-width:508px) {
     #profname img {
         width: 9%;
@@ -67,12 +94,20 @@ button {
     #profname img {
         width: 7%;
     }
+
+    #CSHeaderbox{
+        gap: 18vw;
+    }
 }
 
 /* 737 */
 @media (min-width:737px) {
     #profname img {
         width: 6%;
+    }
+
+    #CSHeaderbox{
+        gap: 22vw;
     }
 }
 
@@ -81,6 +116,11 @@ button {
     #profname img {
         width: 4%;
     }
+
+    #CSHeaderbox{
+        gap: 25vw;
+    }
+
 }
 
 @media (min-width:707px) {
@@ -92,6 +132,6 @@ button {
 @media (min-width:1212px) {
 #CSHeaderbox {
     width: 125%;
- 
+    gap: 30vw;
 }
 }
