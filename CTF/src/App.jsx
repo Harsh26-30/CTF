@@ -15,7 +15,8 @@ function App() {
   const [msgforheaderofNavbarM, setmsgforheaderofNavbarM] = useState(true)
   const [shm, setshm] = useState(false) //shm=show header main or not
   const [profile, setprofile] = useState(false) //shm=show header main or not
-
+  const [slh,setslh]=useState()
+  const [fbh,setfbh]=useState()
 
   // App.jsx ya kisi component me
   useEffect(() => {
@@ -36,8 +37,8 @@ function App() {
 
   return (
     <>
-      {shm && <Header setprofile={setprofile} setshm={setshm} setauth={setauth} msgforheaderofNavbarM={msgforheaderofNavbarM} />}
-      {shm && <Main setprofile={setprofile} profile={profile} setshm={setshm} setauth={setauth} />}
+      {shm && <Header setfbh={setfbh} setslh={setslh} setprofile={setprofile} setshm={setshm} setauth={setauth} msgforheaderofNavbarM={msgforheaderofNavbarM} />}
+      {shm && <Main fbh={fbh} setfbh={setfbh} slh={slh} setprofile={setprofile} profile={profile} setshm={setshm} setauth={setauth} />}
       {auth && <Authenticationpage setshm={setshm} setauth={setauth} />}
     </>
   )

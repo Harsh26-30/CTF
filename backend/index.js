@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const MongoStore = require("connect-mongo").default;
 const http = require("http");
 const Message = require("./messagesave")
+const feedBackMsg = require("./feedback")
 const { Server } = require("socket.io");
 const cloudinary = require("cloudinary").v2;
 require('dotenv').config();
@@ -590,6 +591,20 @@ app.get("/messages/:user1/:user2", async (req, res) => {
 
   res.json(chat);
 });
+
+app.post("/feedbackrecord",async (req,res) => {
+  const {feedbackuser, feedbackmsg} = req.body
+  
+  const newfeedBackMsg = new feedBackMsg({
+    feedbackuser:feedbackuser,
+    message:feedbackmsg
+  })
+
+  await newfeedBackMsg.save();
+
+  res.json({ message: "Feedback saved successfully" });
+})
+
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../CTF/dist/index.html"));

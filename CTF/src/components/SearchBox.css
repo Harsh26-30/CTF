@@ -14,7 +14,7 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     height: 5vh;
-    width: 50vw;
+    width: 45vw;
     position: relative;
     border-radius: 50px;
     z-index: 109;

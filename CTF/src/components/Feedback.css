@@ -1,0 +1,49 @@
+:root {
+  --bg-main: #0B1F1A;
+  --bg-card: #163832;
+  --primary: #1B9C85;
+  --primary-hover: #22BFA3;
+  --gold: #D4AF37;
+  --gold-hover: #E6C35C;
+  --text-main: #E8F6F3;
+  --text-secondary: #B7DAD3;
+}
+
+#feedbackbox{
+    width: 98vw;
+    height:80vh;
+    position: fixed;
+    z-index: 120;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    background-color: var(--bg-card);
+}
+
+#feedbackbox form{
+    width: 50%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#feedbackbox form textarea{
+    width: 100%;
+    height: 90%;
+    background-color: var(--bg-main);
+    font-size: 20px;
+}
+
+#feedbackbox form button{
+    height: 20%;
+    width: 70%;
+    background-color: var(--bg-main);
+}
+
+#feedbackbox form button:hover{
+    background-color: var(--primary);
+}

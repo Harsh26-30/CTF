@@ -4,7 +4,7 @@ import axios from 'axios'
 import Settinglist from './settinglist';
 const API = import.meta.env.VITE_API_URL;
 
-const CSHeader = ({ chattoprof, chatto, setauth, setshm,userID }) => {
+const CSHeader = ({ chattoprof, chatto, setauth, setshm,userID,slh }) => {
     const [userstatus, setuserStatus] = useState("Offline");
     const [hide, sethide] = useState()
 
@@ -48,11 +48,11 @@ const CSHeader = ({ chattoprof, chatto, setauth, setshm,userID }) => {
                     <p style={{ color: userstatus !== "Offline" ? "green" : "red" }}>{userstatus}</p>
                 </div>
             </div>
-            <ul>
+            {slh!==true && <ul>
                 <li onClick={ocsl}>
                     <img src="\more_vert_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="More" />
                 </li>
-            </ul>
+            </ul>}
             {hide && <Settinglist userID={userID} chatto={chatto} sethide={sethide} />}
         </div>
     )

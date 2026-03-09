@@ -16,7 +16,8 @@ const Profile = ({ setupoadimg,setprofile }) => {
             setusername(resuserdata.data.username);
             setuserid(resuserdata.data.userid);
             setuseremail(resuserdata.data.useremail);
-            setuserprofimg(resuserdata.data.profileImage);   // 👈 ADD THIS
+            setuserprofimg(resuserdata.data.profileImage); 
+              // 👈 ADD THIS
         }
         userdata();
     }, [])

@@ -10,7 +10,7 @@
 }
 
 #Navbarbox {
-    width: 27vw;
+    width: 32vw;
     height: 5vh;
     display: flex;
     justify-content: center;
@@ -21,7 +21,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 30px;
+    gap: 0px;
     justify-content: space-evenly;
     font-family: sans-serif;
     font-weight: 600;

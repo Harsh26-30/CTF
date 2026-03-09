@@ -27,12 +27,17 @@
     border: none;
     width: 20px;
     right: 10px;
-    /* position: fixed; */
 }
 
 #CSHeaderbox ul li{
     cursor: pointer;
 }
+
+
+/* #CSHeaderbox {
+    z-index: 9;
+    position: fixed;
+} */
 
 #imgbox{
     background-color: red;
