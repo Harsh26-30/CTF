@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Header from './components/Header'
 import Main from './components/Main'
@@ -19,8 +17,8 @@ function App() {
   const [fbh,setfbh]=useState()
 
   // App.jsx ya kisi component me
-  useEffect(() => {
-    axios.get(`${API}/remainlogin`, {
+  useEffect( () => {
+    axios.get(`${API}/remainlogin`,{
       withCredentials: true
     })
       .then(res => {

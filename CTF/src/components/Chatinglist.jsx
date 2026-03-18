@@ -13,22 +13,29 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
   const baseURL = `${API}`;
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchFriends = async () => {
       try {
-        const res = await axios.get(`${baseURL}/myfriends`, {
+        const res = await axios.get(`${API}/myfriends`, {
           withCredentials: true
-        }); console.log("Friend API response:", res.data);
-        setFriends(res.data.friends || []);
+        });
+        if (isMounted) {
+          setFriends(res.data.friends || []);
+        }
       } catch (err) {
-        console.error(err);
+        console.error("Fetch friends error:", err);
       }
     };
 
-    fetchFriends(); // run immediately
+    fetchFriends();
 
-    const interval = setInterval(fetchFriends, 5000);
+    const interval = setInterval(fetchFriends, 10000); // 🔥 10 sec better
 
-    return () => clearInterval(interval); // cleanup
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {
@@ -54,7 +61,7 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
   };
 
   const hccl = async () => {
-      setonclickforchat(true);
+    setonclickforchat(true);
   }
 
   return (
@@ -88,7 +95,7 @@ const Chatinglist = ({ onclickli, onclickli2 }) => {
             <div>
               <span>{friend.username}</span>
             </div>
-             
+
           </li>
         ))}
       </ul>

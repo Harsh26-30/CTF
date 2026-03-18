@@ -23,8 +23,10 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
         ...prev,
         {
           from: data.fromUserID,
-          to: userID,   // receiver is current user
-          text: data.message
+          to: userID,
+          text: data.message || "",
+          fileUrl: data.fileUrl || "",
+          fileType: data.fileType || ""
         }
       ]);
     };
@@ -45,7 +47,9 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
         const oldMessages = res.data.map(msg => ({
           from: msg.from,
           to: msg.to,
-          text: msg.message
+          text: msg.message || "",
+          fileUrl: msg.fileUrl || "",
+          fileType: msg.fileType || ""
         }));
 
         setMessages(oldMessages);
@@ -65,11 +69,12 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
         {
           from: userID,
           to: chatto,
-          text: sendmsg
+          text: sendmsg.message || "",
+          fileUrl: sendmsg.fileUrl || "",
+          fileType: sendmsg.fileType || ""
         }
       ]);
     }
-
   }, [sendmsg]);
 
   // Update chatting user
@@ -100,10 +105,26 @@ const Messages = ({ userID, chatto, sendmsg, onclick }) => {
               margin: "5px",
             }}
           >
-            <p style={{
-              backgroundImage: msg.from === userID ? "linear-gradient(to bottom, var(--bg-card), var(--primary))" : "linear-gradient(to bottom,var(--primary), var(--bg-card))"
-              // backgroundColor:msg.from === userID? "green":"blue"
-            }}>{msg.text}</p>
+            <div>
+              {msg.text && <p style={{
+                backgroundImage: msg.from === userID ? "linear-gradient(to bottom, var(--bg-card), var(--primary))" : "linear-gradient(to bottom,var(--primary), var(--bg-card))"
+                // backgroundColor:msg.from === userID? "green":"blue"
+              }}>{msg.text}</p>}
+
+              {msg.fileType?.startsWith("image") && (
+                <img src={msg.fileUrl} id='msgimg'  />
+              )}
+
+              {msg.fileType?.startsWith("video") && (
+                <video src={msg.fileUrl} id='msgvideo' controls width="250" />
+              )}
+
+              {msg.fileUrl &&
+                !msg.fileType?.startsWith("image") &&
+                !msg.fileType?.startsWith("video") && (
+                  <a href={msg.fileUrl} target="_blank">Download File</a>
+                )}
+            </div>
             {/* <b>{msg.from === userID ? "You" : msg.from}:</b> {msg.text} */}
           </div>
         ))

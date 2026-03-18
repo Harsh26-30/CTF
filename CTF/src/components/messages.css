@@ -22,6 +22,14 @@
     scrollbar-width: none;
 }
 
+#msgimg{
+    width: 40vw;
+}
+
+#msgvideo{
+    width: 40vw;
+}
+
 @media (min-width:1212px) {
     .messagebox {
         width: 98%;

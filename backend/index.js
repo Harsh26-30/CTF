@@ -281,7 +281,7 @@ app.post('/changeuseremail', async (req, res) => {
   }
 })
 
-app.get("/remainlogin", (req, res) => {
+app.get("/remainlogin", async (req, res) => {
 
   if (req.session.user) {
     return res.json({
@@ -513,17 +513,17 @@ app.get('/userid', async (req, res) => {
   }
 });
 
-app.delete("/clearchat", async (req,res)=>{
-   const {user1,user2} = req.body
+app.delete("/clearchat", async (req, res) => {
+  const { user1, user2 } = req.body
 
-   await Message.deleteMany({
-      $or:[
-        {sender:user1,receiver:user2},
-        {sender:user2,receiver:user1}
-      ]
-   })
+  await Message.deleteMany({
+    $or: [
+      { sender: user1, receiver: user2 },
+      { sender: user2, receiver: user1 }
+    ]
+  })
 
-   res.json({message:"Chat deleted"})
+  res.json({ message: "Chat deleted" })
 })
 
 // msgdata
@@ -537,6 +537,33 @@ app.get('/msgdata', async (req, res) => {
   }
 });
 
+app.post("/uploadchat", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({ error: "Not logged in" });
+    }
+
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: "chat_files" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      stream.end(req.file.buffer);
+    });
+
+    res.json({
+      fileUrl: result.secure_url,
+      fileType: req.file.mimetype
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: "Upload failed" });
+  }
+});
+
 const onlineUsers = {};
 
 io.on("connection", (socket) => {
@@ -545,27 +572,28 @@ io.on("connection", (socket) => {
     onlineUsers[userID] = socket.id;
   });
 
-  socket.on("sendMessageToUser", async ({ chatto, fromUserID, message }) => {
+  socket.on("sendMessageToUser", async ({ chatto, fromUserID, message, fileUrl, fileType }) => {
 
-    // 1️⃣ Save message in DB
     const newMessage = new Message({
       from: fromUserID,
       to: chatto,
-      message
+      message: message || "",
+      fileUrl: fileUrl || "",
+      fileType: fileType || ""
     });
 
     await newMessage.save();
 
-    // 2️⃣ Check if receiver online
     const targetSocket = onlineUsers[chatto];
 
     if (targetSocket) {
       io.to(targetSocket).emit("receiveMessage", {
         fromUserID,
-        message
+        message,
+        fileUrl,
+        fileType
       });
     }
-
   });
 
   socket.on("disconnect", () => {
@@ -592,16 +620,14 @@ app.get("/messages/:user1/:user2", async (req, res) => {
   res.json(chat);
 });
 
-app.post("/feedbackrecord",async (req,res) => {
-  const {feedbackuser, feedbackmsg} = req.body
-  
+app.post("/feedbackrecord", async (req, res) => {
+  const { feedbackuser, feedbackmsg } = req.body
+
   const newfeedBackMsg = new feedBackMsg({
-    feedbackuser:feedbackuser,
-    message:feedbackmsg
+    feedbackuser: feedbackuser,
+    message: feedbackmsg
   })
-
   await newfeedBackMsg.save();
-
   res.json({ message: "Feedback saved successfully" });
 })
 

@@ -10,9 +10,10 @@ const messageSchema = new mongoose.Schema({
     required: true
   },
   message: {
-    type: String,
-    required: true
+    type: String
   },
+  fileUrl: String,
+  fileType: String,
   time: {
     type: Date,
     default: Date.now

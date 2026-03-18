@@ -17,9 +17,8 @@ const Main = ({ setshm, setauth, profile, setprofile,slh,setfbh,fbh }) => {
   const [upoadimg, setupoadimg] = useState("")
 
   useEffect(() => {
-    axios.get(`${API}/userid`, { withCredentials: true })
+   axios.get(`${API}/userid`, { withCredentials: true })
       .then(res => {
-        console.log("Logged in user:", res.data.userid);
         setUserID(res.data.userid);
       })
       .catch(err => console.log(err));
