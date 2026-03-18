@@ -537,16 +537,19 @@ app.get('/msgdata', async (req, res) => {
   }
 });
 
-const uploadFile = upload.single("file"); // rename input to 'file'
-
-app.post("/uploadfile", uploadFile, async (req, res) => {
+app.post("/uploadchat", upload.single("file"), async (req, res) => {
   try {
-    if (!req.session.user || !req.file) return res.status(400).json({ error: "No file or not logged in" });
+    if (!req.session.user) {
+      return res.status(401).json({ error: "Not logged in" });
+    }
 
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        { folder: "chat_files", resource_type: "auto" }, // ✅ auto detects image/video/file
-        (error, result) => error ? reject(error) : resolve(result)
+        { folder: "chat_files" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
       );
       stream.end(req.file.buffer);
     });
@@ -557,7 +560,6 @@ app.post("/uploadfile", uploadFile, async (req, res) => {
     });
 
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: "Upload failed" });
   }
 });
